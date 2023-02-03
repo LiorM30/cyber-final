@@ -32,6 +32,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.packet_filters.append(new_filter)
             self.packetlay.addWidget(new_filter)
 
+        self.packetlay.adjustSize()
         print(", ".join([i.text() for i in self.packet_filters]))
 
     def remove_packet_clicked(self):
@@ -41,6 +42,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.packetlay.removeWidget(self.packet_filters[-1])
             self.packet_filters_group.removeButton(self.packet_filters[-1])
             self.packet_filters.pop(-1)
+        self.packetlay.adjustSize()
         print(", ".join([i.text() for i in self.packet_filters]))
 
     def packet_filter_clicked(self, btn):
