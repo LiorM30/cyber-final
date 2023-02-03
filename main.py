@@ -1,6 +1,5 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication
-import turtle
 
 def main():
     app = QApplication([])
