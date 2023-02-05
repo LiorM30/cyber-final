@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>282</width>
-    <height>515</height>
+    <width>292</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,16 +33,32 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>10</y>
       <width>160</width>
-      <height>451</height>
+      <height>361</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="packetlay" stretch="">
+    <layout class="QVBoxLayout" name="packetlay" stretch="0">
      <property name="leftMargin">
       <number>0</number>
      </property>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </widget>
    <widget class="QPushButton" name="remove_packet_button">
@@ -77,7 +93,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>282</width>
+     <width>292</width>
      <height>21</height>
     </rect>
    </property>
