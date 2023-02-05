@@ -20,13 +20,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.scroll_widget.setLayout(self.filter_layout)
 
         self.scrollArea.setWidget(self.scroll_widget)
-        self.scrollArea.show()
+
+        self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
     def add_filter_clicked(self):
         self.s += 1
         self.s_status.setText(str(self.s))
 
         new_filter = QtWidgets.QPushButton(str(self.s))
+        new_filter.setFixedSize(300, 20)
         self.packet_filters_group.addButton(new_filter)
         self.packet_filters.append(new_filter)
 
@@ -39,6 +41,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.filter_layout.removeWidget(self.packet_filters[-1])
             self.packet_filters_group.removeButton(self.packet_filters[-1])
             self.packet_filters.pop(-1)
+
 
     def packet_filter_clicked(self, btn):
         print("clicked: ", btn.text())
