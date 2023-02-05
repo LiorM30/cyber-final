@@ -12,36 +12,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_filters_group.setExclusive(True)
         self.packet_filters_group.buttonClicked.connect(
             self.packet_filter_clicked)
-        self.add_packet_button.clicked.connect(self.add_packet_clicked)
-        self.remove_packet_button.clicked.connect(self.remove_packet_clicked)
+        self.add_filter_button.clicked.connect(self.add_filter_clicked)
+        self.remove_filter_button.clicked.connect(self.remove_filter_clicked)
         self.s = 0
 
-    def add_packet_clicked(self):
-        self.s_status.setText(str(self.s))
+        self.scroll_widget = QtWidgets.QWidget()
+        self.scroll_widget.setLayout(self.filter_layout)
+
+        self.scrollArea.setWidget(self.scroll_widget)
+        self.scrollArea.show()
+
+    def add_filter_clicked(self):
         self.s += 1
-        if self.packetlay.count() > 12:
-            self.packetlay.removeWidget(self.packet_filters[0])
-            self.packet_filters_group.removeButton(self.packet_filters[0])
-            self.packet_filters.pop(0)
+        self.s_status.setText(str(self.s))
 
         new_filter = QtWidgets.QPushButton(str(self.s))
         self.packet_filters_group.addButton(new_filter)
         self.packet_filters.append(new_filter)
 
-        row = self.packetlay.count()
+        row = self.filter_layout.count()
+        self.filter_layout.insertWidget(row - 1, new_filter)
 
-        self.packetlay.insertWidget(row - 1, new_filter)
-
-        print(", ".join([i.text() for i in self.packet_filters]))
-
-    def remove_packet_clicked(self):
+    def remove_filter_clicked(self):
         self.s_status.setText(str(self.s))
-        self.s += 1
-        if self.packetlay.count() != 0:
-            self.packetlay.removeWidget(self.packet_filters[-1])
+        if self.filter_layout.count() > 1:
+            self.filter_layout.removeWidget(self.packet_filters[-1])
             self.packet_filters_group.removeButton(self.packet_filters[-1])
             self.packet_filters.pop(-1)
-        print(", ".join([i.text() for i in self.packet_filters]))
 
     def packet_filter_clicked(self, btn):
         print("clicked: ", btn.text())
