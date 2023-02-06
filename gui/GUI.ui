@@ -23,8 +23,8 @@
    <widget class="QPushButton" name="remove_filter_button">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>230</y>
+      <x>680</x>
+      <y>270</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -46,8 +46,8 @@
    <widget class="QLabel" name="s_status">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>110</y>
+      <x>660</x>
+      <y>30</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -59,8 +59,8 @@
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>0</y>
+      <x>640</x>
+      <y>50</y>
       <width>231</width>
       <height>221</height>
      </rect>
@@ -83,7 +83,7 @@
         <x>0</x>
         <y>0</y>
         <width>231</width>
-        <height>241</height>
+        <height>221</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="filter_layout" stretch="0">
@@ -113,8 +113,8 @@
    <widget class="QPushButton" name="add_filter_button">
     <property name="geometry">
      <rect>
-      <x>380</x>
-      <y>230</y>
+      <x>650</x>
+      <y>270</y>
       <width>31</width>
       <height>31</height>
      </rect>

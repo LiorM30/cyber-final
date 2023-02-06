@@ -1,6 +1,8 @@
 from PyQt6 import QtWidgets, QtCore
 from GUI import Ui_MainWindow
 
+from filter_widget import FilterWidget
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -22,15 +24,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.scrollArea.setWidget(self.scroll_widget)
 
         self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
     def add_filter_clicked(self):
         self.s += 1
         self.s_status.setText(str(self.s))
 
-        new_filter = QtWidgets.QPushButton(str(self.s))
-        new_filter.setFixedSize(300, 20)
-        self.packet_filters_group.addButton(new_filter)
-        self.packet_filters.append(new_filter)
+        new_filter = FilterWidget()
 
         row = self.filter_layout.count()
         self.filter_layout.insertWidget(row - 1, new_filter)
@@ -38,10 +38,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def remove_filter_clicked(self):
         self.s_status.setText(str(self.s))
         if self.filter_layout.count() > 1:
-            self.filter_layout.removeWidget(self.packet_filters[-1])
-            self.packet_filters_group.removeButton(self.packet_filters[-1])
-            self.packet_filters.pop(-1)
-
+            self.filter_layout.removeWidget(self.filter_layout.itemAt(self.filter_layout.count() - 2).widget())
 
     def packet_filter_clicked(self, btn):
         print("clicked: ", btn.text())
