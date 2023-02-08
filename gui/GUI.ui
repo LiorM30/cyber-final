@@ -9,12 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>487</height>
+    <width>918</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>WireFart</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -24,7 +27,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>270</y>
+      <y>300</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -47,7 +50,7 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>30</y>
+      <y>50</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -60,7 +63,7 @@
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>50</y>
+      <y>70</y>
       <width>231</width>
       <height>221</height>
      </rect>
@@ -114,7 +117,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>270</y>
+      <y>300</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -133,13 +136,143 @@
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="start_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/start_sniffing.png</normaloff>icons/start_sniffing.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/pause_sniffing.png</normaloff>icons/pause_sniffing.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="restart_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/restart_sniffing.png</normaloff>icons/restart_sniffing.png</iconset>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>551</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>10</number>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>-10</y>
+       <width>551</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="packets_layout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>will see packets here</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>551</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>551</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="packet_info_layout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>packet raw data view</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>880</width>
+     <width>918</width>
      <height>21</height>
     </rect>
    </property>
@@ -155,6 +288,8 @@
      <string>staticstics</string>
     </property>
     <addaction name="actionview_hierarchy"/>
+    <addaction name="separator"/>
+    <addaction name="actionvisualization"/>
    </widget>
    <addaction name="menuimport"/>
    <addaction name="menustaticstics"/>
@@ -173,6 +308,11 @@
   <action name="actionview_hierarchy">
    <property name="text">
     <string>view hierarchy</string>
+   </property>
+  </action>
+  <action name="actionvisualization">
+   <property name="text">
+    <string>visualization</string>
    </property>
   </action>
  </widget>

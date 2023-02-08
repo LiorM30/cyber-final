@@ -1,6 +1,7 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication
 
+
 def main():
     app = QApplication([])
     Form, Window = uic.loadUiType("GUI.ui")
