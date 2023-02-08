@@ -27,7 +27,7 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>300</y>
+      <y>310</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -50,7 +50,7 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>50</y>
+      <y>60</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -59,11 +59,11 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea">
+   <widget class="QScrollArea" name="filter_scroll">
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>70</y>
+      <y>80</y>
       <width>231</width>
       <height>221</height>
      </rect>
@@ -117,7 +117,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>300</y>
+      <y>310</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -175,6 +175,9 @@
      <iconset>
       <normaloff>icons/pause_sniffing.png</normaloff>icons/pause_sniffing.png</iconset>
     </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="restart_sniffing_button">
     <property name="geometry">
@@ -193,78 +196,89 @@
       <normaloff>icons/restart_sniffing.png</normaloff>icons/restart_sniffing.png</iconset>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QScrollArea" name="packet_scroll_area">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>80</y>
-      <width>551</width>
+      <width>561</width>
       <height>251</height>
      </rect>
     </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+    <property name="widgetResizable">
+     <bool>true</bool>
     </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <property name="lineWidth">
-     <number>10</number>
-    </property>
-    <widget class="QWidget" name="verticalLayoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>-10</y>
-       <width>551</width>
-       <height>271</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="packets_layout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>will see packets here</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QFrame" name="frame_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>350</y>
-      <width>551</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QWidget" name="verticalLayoutWidget_3">
+    <widget class="QWidget" name="scrollAreaWidgetContents">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>551</width>
-       <height>131</height>
+       <width>559</width>
+       <height>249</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="packet_info_layout">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>packet raw data view</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>-1</x>
+        <y>-1</y>
+        <width>561</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="packet_layout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
+   </widget>
+   <widget class="QScrollArea" name="packet_info_scroll">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>561</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>559</width>
+       <height>129</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="add_packet_button">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>460</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>add packet</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -1,5 +1,7 @@
 from PyQt6 import QtWidgets
 
+from known_protocls import KnownProtocols
+
 
 class FilterWidget(QtWidgets.QWidget):
     def __init__(self, parent=None) -> None:
@@ -11,7 +13,7 @@ class FilterWidget(QtWidgets.QWidget):
         self.type_combo_box = QtWidgets.QComboBox()
         self.type_combo_box.addItems(["protocol", "source", "destination", "port"])
         self.item_combo_box = QtWidgets.QComboBox()
-        self.item_combo_box.addItems(["TCP", "UDP", "ICMP"])
+        self.item_combo_box.addItems([p.name for p in KnownProtocols])
         self.type_combo_box.currentTextChanged.connect(self.filter_type_changed)
         self.inside_layout.insertWidget(0, QtWidgets.QLabel("Filter:"))
         self.inside_layout.insertWidget(1, self.type_combo_box)
