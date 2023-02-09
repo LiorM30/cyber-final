@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets, QtCore
 from GUI import Ui_MainWindow
 
-from filter_widget import FilterWidget
+from filters import FilterWidget
 from packet_widget import PacketWidget
 from known_protocls import KnownProtocols
 
@@ -21,8 +21,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.restart_sniffing_button.clicked.connect(self.restart_sniffing_clicked)
 
         self.start_sniffing_button.setEnabled(False)
-
-        self.filter_scroll.setWidget(QtWidgets.QWidget(self.filter_scroll))
+        w = QtWidgets.QWidget()
+        w.setLayout(self.filter_layout)
+        self.filter_scroll.setWidget(w)
 
         self.filter_scroll.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn
@@ -39,9 +40,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_scroll_area.setHorizontalScrollBarPolicy(
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff
         )
-        w1 = QtWidgets.QWidget()
-        w1.setLayout(self.packet_layout)
-        self.packet_scroll_area.setWidget(w1)
+        w = QtWidgets.QWidget()
+        w.setLayout(self.packet_layout)
+        self.packet_scroll_area.setWidget(w)
 
         self.packet_info_layout = QtWidgets.QHBoxLayout()
         self.raw_packet_info_layout = QtWidgets.QVBoxLayout()
@@ -50,9 +51,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_info_layout.addLayout(self.raw_packet_info_layout)
         self.packet_info_layout.addLayout(self.decrypted_packet_info_layout)
 
-        w2 = QtWidgets.QWidget()
-        w2.setLayout(self.packet_info_layout)
-        self.packet_info_scroll.setWidget(w2)
+        w = QtWidgets.QWidget()
+        w.setLayout(self.packet_info_layout)
+        self.packet_info_scroll.setWidget(w)
         self.packet_info_scroll.widget().setLayout(self.packet_info_layout)
 
         self.raw_packet_info_layout.addWidget(QtWidgets.QLabel("raw packet data will go here"))
@@ -63,6 +64,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.s_status.setText(str(self.s))
 
         new_filter = FilterWidget()
+
+        new_filter.changed_type.connect(self.changed_filter_type)
+        new_filter.changed_value.connect(self.changed_filter_value)
 
         row = self.filter_layout.count()
         self.filter_layout.insertWidget(row - 1, new_filter)
@@ -93,6 +97,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def add_packet_clicked(self):
         new_packet = PacketWidget("time", "source", "destination", KnownProtocols.UDP, "length")
         self.packet_layout.insertWidget(0, new_packet)
+
+    def changed_filter_type(self, filter_widget: FilterWidget):
+        print("changed filter type", filter_widget.get_filter().type)
+
+        print("current active filters:")
+        for i in range(self.filter_layout.count() - 1):
+            w = self.filter_layout.itemAt(i).widget()
+            print(w.get_filter())
+
+    def changed_filter_value(self, filter_widget: FilterWidget):
+        print("changed filter value", filter_widget.get_filter().value)
+
+        print("current active filters:")
+        for i in range(self.filter_layout.count() - 1):
+            w = self.filter_layout.itemAt(i).widget()
+            print(w.get_filter())
 
 
 if __name__ == '__main__':
