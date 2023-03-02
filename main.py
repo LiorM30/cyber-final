@@ -1,15 +1,10 @@
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication
+from .PacketSniffingThread import PacketSniffingThread
 
 
 def main():
-    app = QApplication([])
-    Form, Window = uic.loadUiType("GUI.ui")
-    window = Window()
-    form = Form()
-    form.setupUi(window)
-    window.show()
-    app.exec()
+    p = PacketSniffingThread()
 
 
 if __name__ == "__main__":
