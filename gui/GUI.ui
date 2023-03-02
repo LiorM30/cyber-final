@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>918</width>
+    <height>538</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>WireFart</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="remove_filter_button">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>310</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/remove_filter_minus.png</normaloff>icons/remove_filter_minus.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>31</width>
+      <height>31</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="s_status">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>60</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="filter_scroll">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>80</y>
+      <width>231</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>229</width>
+       <height>219</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>231</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="filter_layout" stretch="0">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <spacer name="filter_spacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>226</width>
+           <height>218</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="add_filter_button">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>310</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/add_filter_plus.png</normaloff>icons/add_filter_plus.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>31</width>
+      <height>31</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="start_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/start_sniffing.png</normaloff>icons/start_sniffing.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stop_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/pause_sniffing.png</normaloff>icons/pause_sniffing.png</iconset>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="restart_sniffing_button">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>30</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>icons/restart_sniffing.png</normaloff>icons/restart_sniffing.png</iconset>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="packet_scroll_area">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>561</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>559</width>
+       <height>249</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>-1</x>
+        <y>-1</y>
+        <width>561</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="packet_layout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QScrollArea" name="packet_info_scroll">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>561</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>559</width>
+       <height>129</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="add_packet_button">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>460</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>add packet</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>918</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuimport">
+    <property name="title">
+     <string>file</string>
+    </property>
+    <addaction name="actionfile"/>
+    <addaction name="actionimport_file"/>
+   </widget>
+   <widget class="QMenu" name="menustaticstics">
+    <property name="title">
+     <string>staticstics</string>
+    </property>
+    <addaction name="actionview_hierarchy"/>
+    <addaction name="separator"/>
+    <addaction name="actionvisualization"/>
+   </widget>
+   <addaction name="menuimport"/>
+   <addaction name="menustaticstics"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionfile">
+   <property name="text">
+    <string>save as</string>
+   </property>
+  </action>
+  <action name="actionimport_file">
+   <property name="text">
+    <string>import file</string>
+   </property>
+  </action>
+  <action name="actionview_hierarchy">
+   <property name="text">
+    <string>view hierarchy</string>
+   </property>
+  </action>
+  <action name="actionvisualization">
+   <property name="text">
+    <string>visualization</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
