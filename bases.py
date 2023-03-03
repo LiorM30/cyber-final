@@ -7,6 +7,7 @@ Base = declarative_base()
 class PacketEntry(Base):
     __tablename__ = 'packets'
 
+    payload = Column(String(255), primary_key=True)
     source_ip = Column(String(255), primary_key=True)
     source_port = Column(Integer, primary_key=True)
     destination_ip = Column(String(255), primary_key=True)
