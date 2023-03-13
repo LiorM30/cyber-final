@@ -136,7 +136,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "WireFart"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Mock"))
         self.s_status.setText(_translate("MainWindow", "TextLabel"))
         self.add_packet_button.setText(_translate("MainWindow", "add packet"))
         self.menuimport.setTitle(_translate("MainWindow", "file"))
