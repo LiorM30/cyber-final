@@ -1,9 +1,11 @@
 from PyQt6 import QtWidgets, QtCore
-from GUI import Ui_MainWindow
+from .GUI import Ui_MainWindow
 
-from filters import FilterWidget
-from packet_widget import PacketWidget
-from known_protocls import KnownProtocols
+from .widgets import FilterWidget
+from .widgets import PacketWidget
+from . import KnownProtocols
+from . import PacketDisplayThread
+from . import PacketDTO
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -11,14 +13,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        self.packet_filters = []
         self.add_filter_button.clicked.connect(self.add_filter_clicked)
         self.remove_filter_button.clicked.connect(self.remove_filter_clicked)
-        self.s = 0
+
+        self.active_filters = []
+
+        self.enter_filters_button.clicked.connect(self.on_apply_filters)
 
         self.start_sniffing_button.clicked.connect(self.start_sniffing_clicked)
         self.stop_sniffing_button.clicked.connect(self.stop_sniffing_clicked)
-        self.restart_sniffing_button.clicked.connect(self.restart_sniffing_clicked)
+        self.restart_sniffing_button.clicked.connect(
+            self.restart_sniffing_clicked)
 
         self.start_sniffing_button.setEnabled(False)
         w = QtWidgets.QWidget()
@@ -51,18 +56,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_info_layout.addLayout(self.raw_packet_info_layout)
         self.packet_info_layout.addLayout(self.decrypted_packet_info_layout)
 
+        self.packet_display_thread = PacketDisplayThread("sqlite:///test.db")
+
+        self.packet_display_thread.new_packets_signal.connect(
+            self.on_new_packets)
+
+        self.packet_display_thread.start()
+
         w = QtWidgets.QWidget()
         w.setLayout(self.packet_info_layout)
         self.packet_info_scroll.setWidget(w)
         self.packet_info_scroll.widget().setLayout(self.packet_info_layout)
 
-        self.raw_packet_info_layout.addWidget(QtWidgets.QLabel("raw packet data will go here"))
-        self.decrypted_packet_info_layout.addWidget(QtWidgets.QLabel("decoded packet data will go here"))
+        self.raw_packet_info_layout.addWidget(
+            QtWidgets.QLabel("raw packet data will go here"))
+        self.decrypted_packet_info_layout.addWidget(
+            QtWidgets.QLabel("decoded packet data will go here"))
 
     def add_filter_clicked(self):
-        self.s += 1
-        self.s_status.setText(str(self.s))
-
         new_filter = FilterWidget()
 
         new_filter.changed_type.connect(self.changed_filter_type)
@@ -72,7 +83,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filter_layout.insertWidget(row - 1, new_filter)
 
     def remove_filter_clicked(self):
-        self.s_status.setText(str(self.s))
         if self.filter_layout.count() > 1:
             w = self.filter_layout.itemAt(
                 self.filter_layout.count() - 2
@@ -95,28 +105,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print("restart sniffing")
 
     def add_packet_clicked(self):
-        new_packet = PacketWidget("time", "source", "destination", KnownProtocols.UDP, "length")
+        new_packet = PacketWidget(
+            "time", "source", "destination", KnownProtocols.UDP.name, "length")
         self.packet_layout.insertWidget(0, new_packet)
 
     def changed_filter_type(self, filter_widget: FilterWidget):
-        print("changed filter type", filter_widget.get_filter().type)
-
-        print("current active filters:")
-        for i in range(self.filter_layout.count() - 1):
-            w = self.filter_layout.itemAt(i).widget()
-            print(w.get_filter())
+        pass
 
     def changed_filter_value(self, filter_widget: FilterWidget):
-        print("changed filter value", filter_widget.get_filter().value)
+        pass
 
-        print("current active filters:")
+    def on_apply_filters(self):
+        print("apply filters")
+        self.active_filters = []
         for i in range(self.filter_layout.count() - 1):
             w = self.filter_layout.itemAt(i).widget()
-            print(w.get_filter())
+            self.active_filters.append(w.get_filter())
 
+        for f in self.active_filters:
+            print(f.__dict__)
 
-if __name__ == '__main__':
-    app = QtWidgets.QApplication([])
-    window = MainWindow()
-    window.show()
-    app.exec()
+        self.packet_display_thread.set_filters(self.active_filters)
+        while self.packet_layout.count():
+            item = self.packet_layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+
+    def on_new_packets(self, packets: list[PacketDTO]):
+        for packet in packets:
+            new_packet = PacketWidget(
+                packet.timestamp, packet.source_ip, packet.destination_ip,
+                packet.protocol, packet.length
+            )
+            self.packet_layout.insertWidget(0, new_packet)

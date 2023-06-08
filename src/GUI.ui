@@ -37,7 +37,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/remove_filter_minus.png</normaloff>icons/remove_filter_minus.png</iconset>
+      <normaloff>../resources/icons/remove_filter_minus.png</normaloff>../resources/icons/remove_filter_minus.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -127,7 +127,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/add_filter_plus.png</normaloff>icons/add_filter_plus.png</iconset>
+      <normaloff>../resources/icons/add_filter_plus.png</normaloff>../resources/icons/add_filter_plus.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -145,12 +145,15 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/start_sniffing.png</normaloff>icons/start_sniffing.png</iconset>
+      <normaloff>../resources/icons/start_sniffing.png</normaloff>../resources/icons/start_sniffing.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -173,7 +176,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/pause_sniffing.png</normaloff>icons/pause_sniffing.png</iconset>
+      <normaloff>../resources/icons/pause_sniffing.png</normaloff>../resources/icons/pause_sniffing.png</iconset>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -193,7 +196,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/restart_sniffing.png</normaloff>icons/restart_sniffing.png</iconset>
+      <normaloff>../resources/icons/restart_sniffing.png</normaloff>../resources/icons/restart_sniffing.png</iconset>
     </property>
    </widget>
    <widget class="QScrollArea" name="packet_scroll_area">
@@ -278,6 +281,19 @@
     </property>
     <property name="text">
      <string>add packet</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="enter_filters_button">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>310</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>enter</string>
     </property>
    </widget>
   </widget>
