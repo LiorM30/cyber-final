@@ -199,54 +199,6 @@
       <normaloff>../resources/icons/restart_sniffing.png</normaloff>../resources/icons/restart_sniffing.png</iconset>
     </property>
    </widget>
-   <widget class="QScrollArea" name="packet_scroll_area">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>561</width>
-      <height>251</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>559</width>
-       <height>249</height>
-      </rect>
-     </property>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>-1</x>
-        <y>-1</y>
-        <width>561</width>
-        <height>251</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="packet_layout">
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-   </widget>
    <widget class="QScrollArea" name="packet_info_scroll">
     <property name="geometry">
      <rect>
@@ -283,7 +235,7 @@
      <string>add packet</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="enter_filters_button">
+   <widget class="QPushButton" name="apply_filters_button">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -293,7 +245,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>enter</string>
+     <string>apply</string>
     </property>
    </widget>
   </widget>

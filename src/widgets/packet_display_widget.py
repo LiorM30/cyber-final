@@ -1,38 +1,43 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QSizePolicy
+from PyQt6.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout
 from PyQt6.QtCore import Qt
 
 from . import PacketWidget
+from ..database_handling.bases import PacketEntry
 
 
 class PacketDisplayWidget(QWidget):
 
-    def __init__(self, layout: QVBoxLayout) -> None:
-        super().__init__()
-
-        self.layout = layout
+    def __init__(self, parent=None, name="packet_display") -> None:
+        super().__init__(parent=parent)
 
         self.layout = QVBoxLayout(self)
-        self.layout.setContentsMargins(0, 0, 0, 0)
-        self.layout.setSpacing(0)
 
-        self.scroll_area = QScrollArea()
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setSizePolicy(
-            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.scroll_area.setVerticalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-        self.scroll_area.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.scroll_area.setWidget(self.layout)
+        self.packet_table = QTableWidget()
+        self.packet_table.setObjectName(name)
+        self.packet_table.setRowCount(0)
+        self.packet_table.setColumnCount(5)
+        self.packet_table.setHorizontalHeaderLabels(
+            ["Time", "Source", "Destination", "Protocol", "Length"]
+        )
+        self.packet_table.horizontalHeader().setStretchLastSection(True)
+        self.packet_table.verticalHeader().setVisible(False)
 
+        self.layout.addWidget(self.packet_table)
         self.setLayout(self.layout)
 
-    def add_packet(self, packet: PacketWidget) -> None:
-        self.layout.addWidget(packet)
+    def add_packet(self, packet: PacketEntry) -> None:
+        last_row = self.packet_table.rowCount()
+        self.packet_table.insertRow(last_row)
+        self.packet_table.setItem(
+            last_row, 0, QTableWidgetItem(packet.timestamp))
+        self.packet_table.setItem(
+            last_row, 1, QTableWidgetItem(packet.source_ip))
+        self.packet_table.setItem(
+            last_row, 2, QTableWidgetItem(packet.destination_ip))
+        self.packet_table.setItem(
+            last_row, 3, QTableWidgetItem(packet.protocol))
+        self.packet_table.setItem(last_row, 4, QTableWidgetItem(packet.length))
 
     def flush(self) -> None:
-        while self.layout.count():
-            item = self.layout.takeAt(0)
-            widget = item.widget()
-            if widget is not None:
-                widget.deleteLater()
+        self.packet_table.clearContents()
+        self.packet_table.setRowCount(0)

@@ -1,16 +1,38 @@
 from PyQt6.QtWidgets import QApplication
 from src.gui_logic import MainWindow
-from src.database_handling import PacketSniffingThread
+
+import logging
+import argparse
 
 
 def main():
-    p = PacketSniffingThread(interface="wlp3s0", url="sqlite:///test.db")
-    p.start()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--log-level", type=int, default=10)
+    args = parser.parse_args()
+
+    logging.basicConfig(
+        level=args.log_level,
+        format="%(asctime)s %(levelname)s %(name)s %(message)s",
+        datefmt="%H:%M:%S"
+    )
+
+    logging.getLogger("GUI").addHandler(
+        logging.FileHandler(r"logs\GUI.log", mode="w"))
+
+    logging.getLogger("database handling").addHandler(
+        logging.FileHandler(r"logs\database handling.log", mode="w"))
+
+    logging.getLogger("root").addHandler(
+        logging.FileHandler(r"logs\general.log", mode="w"))
+
+    logger = logging.getLogger("root")
+
+    logger.info("Starting application")
     app = QApplication([])
     window = MainWindow()
     window.show()
     app.exec()
-    p.stop()
+    logger.info("Application closed")
 
 
 if __name__ == "__main__":

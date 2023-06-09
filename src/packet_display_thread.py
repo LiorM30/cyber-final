@@ -47,7 +47,7 @@ class PacketDisplayThread(QtCore.QThread):
             query = query.filter(PacketEntry.id > last_packet.id)
 
         for filter in self.filters:
-            query = filter.apply_filter(query)
+            query = query.filter(filter.get_filter_expression())
 
         return [PacketDTO.from_packet_entry(packet_entry) for packet_entry in query.all()]
 

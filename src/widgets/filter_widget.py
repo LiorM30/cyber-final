@@ -44,7 +44,6 @@ class FilterWidget(QtWidgets.QWidget):
         layout.addWidget(self.group_box)
 
     def filter_type_changed(self):
-        print("filter type changed: ", self.type_combo_box.currentText())
         if self.inside_layout.count() > 3:
             self.inside_layout.removeWidget(
                 self.inside_layout.itemAt(2).widget())
@@ -69,7 +68,6 @@ class FilterWidget(QtWidgets.QWidget):
         self.changed_type.emit(self)
 
     def filter_value_changed(self):
-        print("filter value changed: ", self.value_combo_box.currentText())
         self.changed_value.emit(self)
 
     def get_filter(self) -> PacketFilter:

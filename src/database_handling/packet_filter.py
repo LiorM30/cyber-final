@@ -7,5 +7,8 @@ class PacketFilter(ABC):
         pass
 
     @abstractmethod
-    def apply_filter(self, query: Query) -> Query:
+    def get_filter_expression(self) -> "FilterExpression":
         raise NotImplementedError()
+
+    def __str__(self) -> str:
+        return str(self.get_filter_expression())
