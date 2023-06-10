@@ -127,17 +127,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         )
         self.packet_display.add_packet(new_packet)
 
-    def changed_filter_type(self, filter_widget: FilterWidget):
+    def changed_filter_type(self, filter_widget: SingularFilterWidget):
         pass
 
-    def changed_filter_value(self, filter_widget: FilterWidget):
+    def changed_filter_value(self, filter_widget: SingularFilterWidget):
         pass
 
     def on_apply_filters(self):
         self.logger.info("pressed apply filters")
         self.active_filters = []
         for i in range(self.filter_layout.count() - 1):
-            w: FilterWidget = self.filter_layout.itemAt(i).widget()
+            w: SingularFilterWidget = self.filter_layout.itemAt(i).widget()
             self.active_filters.append(w.get_filter())
 
             self.logger.debug(f"added filter: {str(w.get_filter())}")

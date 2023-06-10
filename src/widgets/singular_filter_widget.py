@@ -4,7 +4,7 @@ from ..database_handling.filters import *
 from ..known_protocols import KnownProtocols
 
 
-class FilterWidget(QtWidgets.QWidget):
+class SingularFilterWidget(QtWidgets.QWidget):
     changed_type = QtCore.pyqtSignal(QtWidgets.QWidget)
     changed_value = QtCore.pyqtSignal(QtWidgets.QWidget)
 
