@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QVBoxLayout
 from PyQt6.QtCore import Qt
 
-from . import PacketWidget
 from ..database_handling.bases import PacketEntry
 
 

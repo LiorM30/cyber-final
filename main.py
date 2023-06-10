@@ -4,6 +4,8 @@ from src.gui_logic import MainWindow
 import logging
 import argparse
 
+from src.database_handling.bases import PacketEntry
+
 
 def main():
     parser = argparse.ArgumentParser()

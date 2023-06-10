@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>538</height>
+    <width>1245</width>
+    <height>769</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,8 +26,8 @@
    <widget class="QPushButton" name="remove_filter_button">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>310</y>
+      <x>740</x>
+      <y>370</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -46,26 +46,13 @@
      </size>
     </property>
    </widget>
-   <widget class="QLabel" name="s_status">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>60</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="filter_scroll">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>80</y>
-      <width>231</width>
-      <height>221</height>
+      <x>700</x>
+      <y>40</y>
+      <width>361</width>
+      <height>311</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -76,8 +63,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>229</width>
-       <height>219</height>
+       <width>359</width>
+       <height>309</height>
       </rect>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -85,8 +72,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>231</width>
-        <height>221</height>
+        <width>361</width>
+        <height>311</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="filter_layout" stretch="0">
@@ -116,8 +103,8 @@
    <widget class="QPushButton" name="add_filter_button">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>310</y>
+      <x>710</x>
+      <y>370</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -238,8 +225,8 @@
    <widget class="QPushButton" name="apply_filters_button">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>310</y>
+      <x>770</x>
+      <y>370</y>
       <width>51</width>
       <height>31</height>
      </rect>
@@ -254,7 +241,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>918</width>
+     <width>1245</width>
      <height>21</height>
     </rect>
    </property>

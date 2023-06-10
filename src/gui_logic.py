@@ -1,5 +1,5 @@
 import logging
-from PyQt6 import QtGui, QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore
 from .GUI import Ui_MainWindow
 
 from .widgets import *
@@ -28,6 +28,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.restart_sniffing_clicked)
 
         self.stop_sniffing_button.setEnabled(False)
+
+        self.filter_layout.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
         w = QtWidgets.QWidget()
         w.setLayout(self.filter_layout)
         self.filter_scroll.setWidget(w)
@@ -36,7 +38,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn
         )
         self.filter_scroll.setHorizontalScrollBarPolicy(
-            QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff
+            QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn
         )
 
         self.add_packet_button.clicked.connect(self.add_packet_clicked)
@@ -72,15 +74,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_sniffing_thread = PacketSniffingThread(
             interface="wlp3s0", url="sqlite:///test.db")
 
-        self.packet_sniffing_thread.start()
+        # self.packet_sniffing_thread.start()
 
         self.logger = logging.getLogger("GUI")
 
     def add_filter_clicked(self):
-        new_filter = FilterWidget()
+        # new_filter = FilterWidget()
+        new_filter = CompositeFilterWidget()
 
-        new_filter.changed_type.connect(self.changed_filter_type)
-        new_filter.changed_value.connect(self.changed_filter_value)
+        # new_filter.changed_type.connect(self.changed_filter_type)
+        # new_filter.changed_value.connect(self.changed_filter_value)
 
         row = self.filter_layout.count()
         self.filter_layout.insertWidget(row - 1, new_filter)

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from sqlalchemy.orm.query import Query
+from sqlalchemy.sql.elements import BinaryExpression
 
 
 class PacketFilter(ABC):
@@ -7,7 +7,7 @@ class PacketFilter(ABC):
         pass
 
     @abstractmethod
-    def get_filter_expression(self) -> "FilterExpression":
+    def get_filter_expression(self) -> BinaryExpression:
         raise NotImplementedError()
 
     def __str__(self) -> str:
