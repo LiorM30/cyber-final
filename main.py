@@ -14,7 +14,7 @@ def main():
 
     logging.basicConfig(
         level=args.log_level,
-        format="%(asctime)s %(levelname)s %(name)s %(message)s",
+        format="%(asctime)s %(levelname)s %(name)s [%(filename)s] %(message)s",
         datefmt="%H:%M:%S"
     )
 

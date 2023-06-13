@@ -32,9 +32,10 @@ class PacketSniffingThread(Thread):
         self.logger = logging.getLogger("database handling")
 
         self.running = False
+        self.killed = False
 
     def run(self):
-        while True:
+        while not self.killed:
             if self.running:
                 sniff(1, prn=self.handle_packet)
                 if (datetime.now() - self.last_commit).seconds > 0.1:
@@ -72,32 +73,27 @@ class PacketSniffingThread(Thread):
     def get_entry(self, packet: Packet):
         if IP in packet:  # TODO: work out the packet protocol
             new_entry = PacketEntry(
-                # payload=packet.payload,
                 id=self.packet_id,
-                payload=0,
                 source_ip=packet[IP].src,
                 source_port=packet[IP].sport,
                 destination_ip=packet[IP].dst,
                 destination_port=packet[IP].dport,
                 protocol=self.get_uppest_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
-                length=len(packet)
+                length=len(packet),
+                raw=bytes(packet)
             )
-        # elif ARP in packet:
-        #     pass
-        # elif ICMP in packet:
-        #     pass
         else:
             new_entry = PacketEntry(
                 id=self.packet_id,
-                payload=0,
                 source_ip=None,
                 source_port=None,
                 destination_ip=None,
                 destination_port=None,
                 protocol=self.get_uppest_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
-                length=len(packet)
+                length=len(packet),
+                raw=bytes(packet)
             )
         return new_entry
 
@@ -111,3 +107,8 @@ class PacketSniffingThread(Thread):
         self.running = True
         self.session = self.Session()
         self.logger.info("started new sql session")
+
+    def kill(self):
+        self.stop_session()
+        self.killed = True
+        self.logger.info("killed packet sniffing thread")
