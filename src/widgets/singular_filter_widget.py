@@ -1,10 +1,11 @@
 from PyQt6 import QtWidgets, QtCore
 
+from . import FilterWidget
 from ..database_handling.filters import *
 from ..known_protocols import KnownProtocols
 
 
-class SingularFilterWidget(QtWidgets.QWidget):
+class SingularFilterWidget(FilterWidget):
     changed_type = QtCore.pyqtSignal(QtWidgets.QWidget)
     changed_value = QtCore.pyqtSignal(QtWidgets.QWidget)
 
@@ -14,7 +15,6 @@ class SingularFilterWidget(QtWidgets.QWidget):
         self.type = "protocol"
         self.value = "TCP"
 
-        self.inside_layout = QtWidgets.QHBoxLayout()
         self.label = QtWidgets.QLabel("Filter:")
         self.label.setSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
@@ -23,9 +23,11 @@ class SingularFilterWidget(QtWidgets.QWidget):
             ["protocol", "source ip", "destination ip", "source port", "destination port"])
         self.value_combo_box = QtWidgets.QComboBox()
         self.value_combo_box.addItems([p.name for p in KnownProtocols])
-        self.inside_layout.insertWidget(0, QtWidgets.QLabel("Filter:"))
-        self.inside_layout.insertWidget(1, self.type_combo_box)
-        self.inside_layout.insertWidget(2, self.value_combo_box)
+        self.layout.insertWidget(0, QtWidgets.QLabel("Filter:"))
+        self.layout.insertWidget(1, self.type_combo_box)
+        self.layout.insertWidget(2, self.value_combo_box)
+
+        self.layout.addStretch(0)
 
         self.type_combo_box.currentIndexChanged.connect(
             self.filter_type_changed
@@ -34,16 +36,16 @@ class SingularFilterWidget(QtWidgets.QWidget):
             self.filter_value_changed
         )
 
-        self.group_box = QtWidgets.QGroupBox()
-        self.group_box.setLayout(self.inside_layout)
+        # self.group_box = QtWidgets.QGroupBox()
+        # self.group_box.setLayout(self.layout)
 
-        layout = QtWidgets.QHBoxLayout(self)
-        layout.addWidget(self.group_box)
+        # layout = QtWidgets.QHBoxLayout(self)
+        # layout.addWidget(self.group_box)
 
     def filter_type_changed(self):
-        if self.inside_layout.count() > 2:
-            self.inside_layout.removeWidget(
-                self.inside_layout.itemAt(2).widget())
+        if self.layout.count() > 2:
+            self.layout.removeWidget(
+                self.layout.itemAt(2).widget())
         self.value_combo_box = QtWidgets.QComboBox()
         match self.type_combo_box.currentText():
             case "protocol":
@@ -58,7 +60,7 @@ class SingularFilterWidget(QtWidgets.QWidget):
                 self.value_combo_box.addItems(['port1', 'port2', 'port3'])
             case "destination port":
                 self.value_combo_box.addItems(['port1', 'port2', 'port3'])
-        self.inside_layout.insertWidget(2, self.value_combo_box)
+        self.layout.insertWidget(2, self.value_combo_box)
         self.value_combo_box.currentIndexChanged.connect(
             self.filter_value_changed
         )

@@ -1,8 +1,24 @@
 from .bases import PacketEntry
 from sqlalchemy.sql.elements import BinaryExpression
+from sqlalchemy.sql.operators import OperatorType
+from sqlalchemy import and_, or_
 import datetime
 
 from . import PacketFilter
+
+
+class CompoundFilter(PacketFilter):
+    def __init__(self, filter: PacketFilter) -> None:
+        self.expression = filter.get_filter_expression()
+
+    def AND(self, filter: PacketFilter) -> None:
+        self.expression = and_(self.expression, filter.get_filter_expression())
+
+    def OR(self, filter: PacketFilter) -> None:
+        self.expression = or_(self.expression, filter.get_filter_expression())
+
+    def get_filter_expression(self) -> BinaryExpression:
+        return self.expression
 
 
 class SourceIPFilter(PacketFilter):

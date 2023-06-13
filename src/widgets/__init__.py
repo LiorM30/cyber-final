@@ -1,3 +1,4 @@
+from .filter_widget import FilterWidget
 from .singular_filter_widget import SingularFilterWidget
+from .composite_filter_widget import CompositeFilterWidget
 from .packet_display_widget import PacketDisplayWidget
-from .composite_filter_widge import CompositeFilterWidget

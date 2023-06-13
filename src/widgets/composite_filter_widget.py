@@ -2,17 +2,17 @@ from __future__ import annotations
 
 from PyQt6 import QtWidgets, QtCore
 
-from . import SingularFilterWidget
+from . import SingularFilterWidget, FilterWidget
+from ..database_handling import PacketFilter
+from ..database_handling.filters import CompoundFilter
 
 
-class CompositeFilterWidget(QtWidgets.QWidget):
+class CompositeFilterWidget(FilterWidget):
     def __init__(self, parent=None, name="composite_filter") -> None:
         super().__init__(parent=parent)
 
         self.setSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
-
-        self.layout = QtWidgets.QHBoxLayout(self)
 
         self.button_layout = QtWidgets.QVBoxLayout()
 
@@ -31,14 +31,16 @@ class CompositeFilterWidget(QtWidgets.QWidget):
 
         self.button_layout.addWidget(self.add_filter_button)
         self.button_layout.addWidget(self.remove_filter_button)
-        self.button_layout.addStretch(1)
+        self.button_layout.addStretch(0)
 
         self.layout.addLayout(self.button_layout)
         self.layout.addWidget(self.filter_frame)
+        self.layout.addStretch(0)
 
         self.setLayout(self.layout)
 
-        self.filters = []
+        self.filters: list[FilterWidget] = []
+        self.operators: list[QtWidgets.QComboBox] = []
 
         self.add_filter_button.clicked.connect(self.add_filter_clicked)
         self.remove_filter_button.clicked.connect(self.remove_filter_clicked)
@@ -49,21 +51,34 @@ class CompositeFilterWidget(QtWidgets.QWidget):
         self.add_filter()
 
     def remove_filter_clicked(self) -> None:
-        if len(self.filters) > 0:
-            self.filters[-1].deleteLater()
+        if len(self.filters) > 1:
+            l = self.filter_layout.itemAt(
+                self.filter_layout.count() - 1).layout()
+
+            while l.count():
+                l.takeAt(0).widget().deleteLater()
+
+            l.deleteLater()
+
             self.filters.pop(-1)
 
+            if self.operators:
+                self.operators[-1].deleteLater()
+                self.operators.pop(-1)
+
     def toggle_composite_clicked(self, filter_layout: QtWidgets.QHBoxLayout) -> None:
+        self.filters.remove(filter_layout.itemAt(1).widget())
+
         if isinstance(filter_layout.itemAt(1).widget(), CompositeFilterWidget):
-            print("composite")
             reg_filter = SingularFilterWidget()
             filter_layout.itemAt(1).widget().deleteLater()
             filter_layout.insertWidget(1, reg_filter)
+            self.filters.append(reg_filter)
         else:
-            print("reg")
             composite_filter = CompositeFilterWidget()
             filter_layout.itemAt(1).widget().deleteLater()
             filter_layout.insertWidget(1, composite_filter)
+            self.filters.append(composite_filter)
 
     def add_filter(self) -> None:
         new_filter_layout = QtWidgets.QHBoxLayout()
@@ -76,11 +91,24 @@ class CompositeFilterWidget(QtWidgets.QWidget):
         self.filters.append(f)
         new_filter_layout.addWidget(f)
 
+        if self.filter_layout.count() > 0:
+            operator_combo_box = QtWidgets.QComboBox()
+            operator_combo_box.addItems(["AND", "OR"])
+            operator_combo_box.setMaximumWidth(50)
+            self.filter_layout.addWidget(operator_combo_box)
+            self.operators.append(operator_combo_box)
+
         self.filter_layout.addLayout(new_filter_layout)
 
         toggle_composite_button.clicked.connect(
             lambda: self.toggle_composite_clicked(new_filter_layout)
         )
 
-    def get_filters(self) -> list:
-        return [f.get_filter() for f in self.filters]
+    def get_filter(self) -> PacketFilter:
+        compound_filter = CompoundFilter(self.filters[0].get_filter())
+        for operator, f in zip(self.operators, self.filters[1:]):
+            if operator.currentText() == "AND":
+                compound_filter.AND(f.get_filter())
+            elif operator.currentText() == "OR":
+                compound_filter.OR(f.get_filter())
+        return compound_filter

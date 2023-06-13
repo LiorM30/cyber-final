@@ -8,7 +8,7 @@ class PacketFilter(ABC):
 
     @abstractmethod
     def get_filter_expression(self) -> BinaryExpression:
-        raise NotImplementedError()
+        raise NotImplementedError("Child class must implement abstract method")
 
     def __str__(self) -> str:
         return str(self.get_filter_expression())
