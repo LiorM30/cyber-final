@@ -70,7 +70,7 @@ class PacketSniffingThread(Thread):
             packet = packet.payload
         return packet.name
 
-    def get_entry(self, packet: Packet):
+    def get_entry(self, packet: packet):
         if IP in packet:  # TODO: work out the packet protocol
             new_entry = PacketEntry(
                 id=self.packet_id,

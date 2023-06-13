@@ -4,15 +4,16 @@ from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout
 from ..database_handling.bases import PacketEntry
 
 
-from abc import ABC, abstractmethod
+import struct
+from socket import inet_ntoa
+from scapy.all import *
 
 
 class ParsedPacketViewWidget(QWidget):
-    def __init__(self, parent: QWidget = None, packet: PacketEntry):
+    def __init__(self, packet: PacketEntry, parent: QWidget = None):
         super().__init__(parent=parent)
 
         self.packet = packet
-        self.parser: PacketParser = None
 
         self.layout = QHBoxLayout(self)
 
@@ -39,32 +40,44 @@ class ParsedPacketViewWidget(QWidget):
 
         match text:
             case "Link":
-                self.text_browser.setText(self.parser.get_link(self.packet))
+                self.text_browser.setText(self.parse_ip_layer(self.packet))
             case "Network":
-                self.text_browser.setText(self.parser.get_network(self.packet))
+                self.text_browser.setText("network")
             case "Transport":
-                self.text_browser.setText(
-                    self.parser.get_transport(self.packet))
+                self.text_browser.setText("Transport")
             case "Application":
-                self.text_browser.setText(
-                    self.parser.get_application(self.packet))
+                self.text_browser.setText("Application")
             case _:
                 self.text_browser.setText("Invalid layer")
 
+    def create_scapy_packet(cls, raw_bytes):
+        # Create a Scapy Ethernet packet object
+        ether_packet = Ether(raw_bytes)
 
-class PacketParser(ABC):
-    @abstractmethod
-    def get_link(self, packet: PacketEntry) -> str:
-        raise NotImplementedError("child class must implement this method")
+        # Create a Scapy IP packet object
+        ip_packet = ether_packet[IP]
 
-    @abstractmethod
-    def get_network(self, packet: PacketEntry) -> str:
-        raise NotImplementedError("child class must implement this method")
+        # If the raw bytes contain additional payload beyond the IP layer,
+        # you can append it to the packet using the Raw layer
+        if len(raw_bytes) > len(ether_packet):
+            payload = raw_bytes[len(ether_packet):]
+            scapy_packet = ip_packet / Raw(payload)
+        else:
+            scapy_packet = ip_packet
 
-    @abstractmethod
-    def get_transport(self, packet: PacketEntry) -> str:
-        raise NotImplementedError("child class must implement this method")
+        return scapy_packet
 
-    @abstractmethod
-    def get_application(self, packet: PacketEntry) -> str:
-        raise NotImplementedError("child class must implement this method")
+    def parse_ip_layer(self, packet: PacketEntry):
+        raw_bytes = packet.raw
+        ip_layer = self.create_scapy_packet(raw_bytes).getlayer(IP)
+        return f"Version: {ip_layer.version}\n" \
+            f"IP Header Length: {ip_layer.ihl * 4}\n" \
+            f"TOS: {ip_layer.tos}\n" \
+            f"Length: {ip_layer.len}\n" \
+            f"ID: {ip_layer.id}\n" \
+            f"Flags: {ip_layer.flags}\n" \
+            f"Fragment Offset: {ip_layer.frag}\n" \
+            f"TTL: {ip_layer.ttl}\n" \
+            f"Protocol: {ip_layer.proto}\n" \
+            f"Source Address: {ip_layer.src}\n" \
+            f"Destination Address: {ip_layer.dst}\n"

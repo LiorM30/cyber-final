@@ -141,7 +141,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_packet_double_clicked(self, packet: PacketEntry):
         self.parsed_packet_window = QtWidgets.QMainWindow()
         self.parsed_packet_window.setWindowTitle("Packet Info")
-        self.parsed_packet_window.setCentralWidget(ParsedPacketViewWidget())
+        self.parsed_packet_window.setCentralWidget(
+            ParsedPacketViewWidget(packet))
         self.parsed_packet_window.show()
 
     def closeEvent(self, a0) -> None:
