@@ -8,6 +8,7 @@ from ..database_handling.bases import PacketEntry
 
 class PacketDisplayWidget(QWidget):
     packet_clicked = pyqtSignal(PacketEntry)
+    packet_double_clicked = pyqtSignal(PacketEntry)
 
     def __init__(self, parent=None, name="packet_display") -> None:
         super().__init__(parent=parent)
@@ -33,6 +34,8 @@ class PacketDisplayWidget(QWidget):
         self.packets: list[PacketEntry] = []
 
         self.packet_table.cellClicked.connect(self.on_item_clicked)
+        self.packet_table.cellDoubleClicked.connect(
+            self.on_item_double_clicked)
 
     def add_packet(self, packet: PacketEntry) -> None:
         last_row = self.packet_table.rowCount()
@@ -63,3 +66,8 @@ class PacketDisplayWidget(QWidget):
         self.logger.debug(f"clicked on row {row}, column {column}")
 
         self.packet_clicked.emit(self.packets[row])
+
+    def on_item_double_clicked(self, row: int, column: int) -> None:
+        self.logger.debug(f"double clicked on row {row}, column {column}")
+
+        self.packet_double_clicked.emit(self.packets[row])

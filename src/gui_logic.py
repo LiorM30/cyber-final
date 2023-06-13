@@ -60,6 +60,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_display.packet_clicked.connect(
             self.on_packet_clicked)
 
+        self.packet_display.packet_double_clicked.connect(
+            self.on_packet_double_clicked)
+
         self.packet_sniffing_thread = PacketSniffingThread(
             interface="wlp3s0", url="sqlite:///test.db")
 
@@ -134,6 +137,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         result_list = [" ".join(raw_list[i:i+8])
                        for i in range(0, len(raw_list), 8)]
         return "\n".join(result_list)
+
+    def on_packet_double_clicked(self, packet: PacketEntry):
+        self.parsed_packet_window = QtWidgets.QMainWindow()
+        self.parsed_packet_window.setWindowTitle("Packet Info")
+        self.parsed_packet_window.setCentralWidget(ParsedPacketViewWidget())
+        self.parsed_packet_window.show()
 
     def closeEvent(self, a0) -> None:
         self.packet_sniffing_thread.kill()
