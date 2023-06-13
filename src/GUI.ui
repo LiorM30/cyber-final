@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>538</height>
+    <width>1245</width>
+    <height>769</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>WireFart</string>
+   <string>Mock</string>
   </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
@@ -23,49 +23,13 @@
    <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="remove_filter_button">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>310</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>icons/remove_filter_minus.png</normaloff>icons/remove_filter_minus.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>31</width>
-      <height>31</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QLabel" name="s_status">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>60</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="filter_scroll">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>80</y>
-      <width>231</width>
-      <height>221</height>
+      <x>700</x>
+      <y>40</y>
+      <width>361</width>
+      <height>311</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -76,8 +40,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>229</width>
-       <height>219</height>
+       <width>359</width>
+       <height>309</height>
       </rect>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -85,8 +49,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>231</width>
-        <height>221</height>
+        <width>361</width>
+        <height>311</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="filter_layout" stretch="0">
@@ -113,29 +77,6 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QPushButton" name="add_filter_button">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>310</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>icons/add_filter_plus.png</normaloff>icons/add_filter_plus.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>31</width>
-      <height>31</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QPushButton" name="start_sniffing_button">
     <property name="geometry">
      <rect>
@@ -145,12 +86,15 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
     <property name="text">
      <string/>
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/start_sniffing.png</normaloff>icons/start_sniffing.png</iconset>
+      <normaloff>../resources/icons/start_sniffing.png</normaloff>../resources/icons/start_sniffing.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -173,7 +117,7 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/pause_sniffing.png</normaloff>icons/pause_sniffing.png</iconset>
+      <normaloff>../resources/icons/pause_sniffing.png</normaloff>../resources/icons/pause_sniffing.png</iconset>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -193,56 +137,8 @@
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>icons/restart_sniffing.png</normaloff>icons/restart_sniffing.png</iconset>
+      <normaloff>../resources/icons/restart_sniffing.png</normaloff>../resources/icons/restart_sniffing.png</iconset>
     </property>
-   </widget>
-   <widget class="QScrollArea" name="packet_scroll_area">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>561</width>
-      <height>251</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>559</width>
-       <height>249</height>
-      </rect>
-     </property>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>-1</x>
-        <y>-1</y>
-        <width>561</width>
-        <height>251</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="packet_layout">
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </widget>
    </widget>
    <widget class="QScrollArea" name="packet_info_scroll">
     <property name="geometry">
@@ -280,13 +176,39 @@
      <string>add packet</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="apply_filters_button">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>360</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>apply</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="revert_filters_button">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>360</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>revert</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>918</width>
+     <width>1245</width>
      <height>21</height>
     </rect>
    </property>
