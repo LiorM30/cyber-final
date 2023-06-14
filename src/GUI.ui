@@ -26,10 +26,10 @@
    <widget class="QScrollArea" name="filter_scroll">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>600</x>
       <y>40</y>
-      <width>361</width>
-      <height>311</height>
+      <width>481</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -40,8 +40,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>359</width>
-       <height>309</height>
+       <width>479</width>
+       <height>369</height>
       </rect>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -49,8 +49,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>361</width>
-        <height>311</height>
+        <width>481</width>
+        <height>371</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="filter_layout" stretch="0">
@@ -82,7 +82,7 @@
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>31</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
@@ -90,7 +90,7 @@
      <enum>Qt::StrongFocus</enum>
     </property>
     <property name="text">
-     <string/>
+     <string>start</string>
     </property>
     <property name="icon">
      <iconset>
@@ -106,14 +106,14 @@
    <widget class="QPushButton" name="stop_sniffing_button">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>90</x>
       <y>30</y>
-      <width>31</width>
+      <width>51</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>stop</string>
     </property>
     <property name="icon">
      <iconset>
@@ -126,14 +126,14 @@
    <widget class="QPushButton" name="restart_sniffing_button">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>150</x>
       <y>30</y>
-      <width>31</width>
+      <width>61</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>restart</string>
     </property>
     <property name="icon">
      <iconset>
@@ -161,6 +161,40 @@
        <height>129</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+      </font>
+     </property>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>-1</x>
+        <y>-1</y>
+        <width>561</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QTextBrowser" name="packet_bytes_data_text">
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="packet_UTF8_data_text">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="add_packet_button">
@@ -179,8 +213,8 @@
    <widget class="QPushButton" name="apply_filters_button">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>360</y>
+      <x>660</x>
+      <y>420</y>
       <width>51</width>
       <height>31</height>
      </rect>
@@ -192,8 +226,8 @@
    <widget class="QPushButton" name="revert_filters_button">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>360</y>
+      <x>600</x>
+      <y>420</y>
       <width>51</width>
       <height>31</height>
      </rect>
