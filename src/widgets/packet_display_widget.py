@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt
 
 import logging
 
-from ..database_handling.bases import PacketEntry
+from ..database_handling.packet_entry import PacketEntry
 
 
 class PacketDisplayWidget(QWidget):

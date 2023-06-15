@@ -23,37 +23,36 @@ class SingularFilterWidget(FilterWidget):
         self.value_text_box = QtWidgets.QLineEdit()
         self.value_text_box.setFixedWidth(100)
 
-        self.layout.insertWidget(0, QtWidgets.QLabel("Filter:"))
-        self.layout.insertWidget(1, self.type_combo_box)
-        self.layout.insertWidget(2, self.value_combo_box)
+        self._layout.insertWidget(0, QtWidgets.QLabel("Filter:"))
+        self._layout.insertWidget(1, self.type_combo_box)
+        self._layout.insertWidget(2, self.value_combo_box)
 
-        self.layout.addStretch(0)
+        self._layout.addStretch(0)
 
         self.type_combo_box.currentTextChanged.connect(
             self.filter_type_changed)
 
     def filter_type_changed(self):
-        if self.layout.count() > 2:
-            self.layout.removeWidget(
-                self.layout.itemAt(2).widget())
-        self.value_combo_box = QtWidgets.QComboBox()
+        w = self._layout.itemAt(2).widget()
+        self._layout.removeWidget(w)
+        w.hide()
         match self.type_combo_box.currentText():
             case "protocol":
-                self.layout.removeWidget(self.layout.itemAt(2).widget())
-                self.layout.addWidget(self.value_combo_box)
+                self.value_combo_box.show()
+                self._layout.insertWidget(2, self.value_combo_box)
                 self.value_combo_box.addItems(["TCP", "UDP", "ICMP"])
             case "source ip":
-                self.layout.removeWidget(self.layout.itemAt(2).widget())
-                self.layout.addWidget(self.value_text_box)
+                self.value_text_box.show()
+                self._layout.insertWidget(2, self.value_text_box)
             case "destination ip":
-                self.layout.removeWidget(self.layout.itemAt(2).widget())
-                self.layout.addWidget(self.value_text_box)
+                self.value_text_box.show()
+                self._layout.insertWidget(2, self.value_text_box)
             case "source port":
-                self.layout.removeWidget(self.layout.itemAt(2).widget())
-                self.layout.addWidget(self.value_text_box)
+                self.value_text_box.show()
+                self._layout.insertWidget(2, self.value_text_box)
             case "destination port":
-                self.layout.removeWidget(self.layout.itemAt(2).widget())
-                self.layout.addWidget(self.value_text_box)
+                self.value_text_box.show()
+                self._layout.insertWidget(2, self.value_text_box)
 
     def get_filter(self) -> PacketFilter:
         match self.type_combo_box.currentText():

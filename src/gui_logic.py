@@ -5,7 +5,7 @@ from .GUI import Ui_MainWindow
 from .widgets import *
 from . import KnownProtocols
 from . import PacketRetrieverThread
-from .database_handling.bases import PacketEntry
+from .database_handling.packet_entry import PacketEntry
 from .database_handling import PacketSniffingThread
 
 
@@ -109,12 +109,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def apply_filters_clicked(self):
         self.logger.info("pressed apply filters")
-        self.packet_display_thread.set_filters(self.filter.get_filter())
+        self.packet_display_thread.apply_filter(self.filter.get_filter())
         self.packet_display.flush()
 
     def revert_filters_clicked(self):
         self.logger.info("pressed revert filters")
-        self.packet_display_thread.set_filters(None)
+        self.packet_display_thread.apply_filter(None)
         self.packet_display.flush()
 
     def on_new_packets(self, packets: list[PacketEntry]):

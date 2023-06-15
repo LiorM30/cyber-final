@@ -13,9 +13,9 @@ class FilterWidget(QtWidgets.QWidget):
         self.setSizePolicy(
             QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
 
-        self.layout = QtWidgets.QHBoxLayout(self)
+        self._layout = QtWidgets.QHBoxLayout(self)
 
-        self.setLayout(self.layout)
+        self.setLayout(self._layout)
 
     def get_filter(self) -> PacketFilter:
         raise NotImplementedError("Child class must implement abstract method")

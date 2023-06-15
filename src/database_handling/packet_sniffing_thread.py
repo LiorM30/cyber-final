@@ -9,7 +9,7 @@ from time import sleep
 
 import logging
 
-from .bases import PacketEntry
+from .packet_entry import PacketEntry
 
 
 class PacketSniffingThread(Thread):
@@ -64,7 +64,7 @@ class PacketSniffingThread(Thread):
 
         self.packet_id += 1
 
-    def get_uppest_protocol(self, packet):
+    def get_uppermost_protocol(self, packet):
         while packet.payload and isinstance(packet.payload, (IP, IPv6, TCP, UDP, ICMP)):
             packet = packet.payload
         return packet.name
@@ -79,14 +79,10 @@ class PacketSniffingThread(Thread):
                 source_port=packet[IP].sport,
                 destination_ip=packet[IP].dst,
                 destination_port=packet[IP].dport,
-                protocol=self.get_uppest_protocol(packet),
+                protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
                 length=len(packet)
             )
-        # elif ARP in packet:
-        #     pass
-        # elif ICMP in packet:
-        #     pass
         else:
             new_entry = PacketEntry(
                 id=self.packet_id,
@@ -95,7 +91,7 @@ class PacketSniffingThread(Thread):
                 source_port=None,
                 destination_ip=None,
                 destination_port=None,
-                protocol=self.get_uppest_protocol(packet),
+                protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
                 length=len(packet)
             )
