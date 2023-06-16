@@ -9,7 +9,7 @@ from time import sleep
 
 import logging
 
-from .bases import PacketEntry
+from .packet_entry import PacketEntry
 
 
 class PacketSniffingThread(Thread):

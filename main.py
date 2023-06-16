@@ -4,7 +4,7 @@ from src.gui_logic import MainWindow
 import logging
 import argparse
 
-from src.database_handling.bases import PacketEntry
+from src.database_handling.packet_entry import PacketEntry
 
 from src.parsers import *
 

@@ -1,4 +1,4 @@
-from .bases import PacketEntry
+from .packet_entry import PacketEntry
 from sqlalchemy.sql.elements import BinaryExpression
 from sqlalchemy.sql.operators import OperatorType
 from sqlalchemy import and_, or_

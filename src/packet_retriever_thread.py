@@ -3,7 +3,7 @@ from PyQt6.QtCore import pyqtSignal
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
-from .database_handling.bases import PacketEntry
+from .database_handling.packet_entry import PacketEntry
 from .database_handling.filters import PacketFilter
 
 from time import sleep
@@ -32,8 +32,8 @@ class PacketRetrieverThread(QtCore.QThread):
         self.new_packets: list[PacketEntry] = []
         self.displayed_packets: list[PacketEntry] = []
 
-    def set_filters(self, filters: list[PacketFilter]) -> None:
-        self.filter = filters
+    def apply_filter(self, filter: PacketFilter) -> None:
+        self.filter = filter
         self.displayed_packets = []
 
     def get_new_packets(self) -> list[PacketEntry]:
@@ -44,9 +44,6 @@ class PacketRetrieverThread(QtCore.QThread):
         if self.displayed_packets:
             last_packet = self.displayed_packets[-1]
             query = query.filter(PacketEntry.id > last_packet.id)
-
-        # for filter in self.filters:
-        #     query = query.filter(filter.get_filter_expression())
 
         if self.filter:
             query = query.filter(self.filter.get_filter_expression())

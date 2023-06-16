@@ -26,10 +26,10 @@
    <widget class="QScrollArea" name="filter_scroll">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>600</x>
       <y>40</y>
-      <width>361</width>
-      <height>311</height>
+      <width>481</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -40,8 +40,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>359</width>
-       <height>309</height>
+       <width>479</width>
+       <height>369</height>
       </rect>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -49,8 +49,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>361</width>
-        <height>311</height>
+        <width>481</width>
+        <height>371</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="filter_layout" stretch="0">
@@ -213,8 +213,8 @@
    <widget class="QPushButton" name="apply_filters_button">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>360</y>
+      <x>660</x>
+      <y>420</y>
       <width>51</width>
       <height>31</height>
      </rect>
@@ -226,8 +226,8 @@
    <widget class="QPushButton" name="revert_filters_button">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>360</y>
+      <x>600</x>
+      <y>420</y>
       <width>51</width>
       <height>31</height>
      </rect>

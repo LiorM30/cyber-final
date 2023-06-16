@@ -33,11 +33,11 @@ class CompositeFilterWidget(FilterWidget):
         self.button_layout.addWidget(self.remove_filter_button)
         self.button_layout.addStretch(0)
 
-        self.layout.addLayout(self.button_layout)
-        self.layout.addWidget(self.filter_frame)
-        self.layout.addStretch(0)
+        self._layout.addLayout(self.button_layout)
+        self._layout.addWidget(self.filter_frame)
+        self._layout.addStretch(0)
 
-        self.setLayout(self.layout)
+        self.setLayout(self._layout)
 
         self.filters: list[FilterWidget] = []
         self.operators: list[QtWidgets.QComboBox] = []
