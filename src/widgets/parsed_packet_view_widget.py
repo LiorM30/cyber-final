@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout, QVBoxLayout, QLabel
 
 
-from ..database_handling.bases import PacketEntry
+from ..database_handling import PacketEntry
 from .. import ProtocolParser
 
 

@@ -1,5 +1,5 @@
 from . import ProtocolParser
-from .database_handling.bases import PacketEntry
+from .database_handling import PacketEntry
 
 
 from scapy.all import *
