@@ -10,8 +10,8 @@ from .database_handling import PacketSniffingThread
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parsers, parent=None):
+        super().__init__(parent=parent)
         self.setupUi(self)
 
         self.filter: FilterWidget = CompositeFilterWidget()
@@ -64,11 +64,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.on_packet_double_clicked)
 
         self.packet_sniffing_thread = PacketSniffingThread(
-            interface="wlp3s0", url="sqlite:///test.db")
+            interface="wlp3s0", url="sqlite:///test.db", parsers=parsers)
 
         self.packet_sniffing_thread.start()
 
         self.logger = logging.getLogger("GUI")
+
+        self.parsers = parsers
 
     def start_sniffing_clicked(self):
         self.logger.info("pressed start sniffing")
@@ -142,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.parsed_packet_window = QtWidgets.QMainWindow()
         self.parsed_packet_window.setWindowTitle("Packet Info")
         self.parsed_packet_window.setCentralWidget(
-            ParsedPacketViewWidget(packet))
+            ParsedPacketViewWidget(packet, self.parsers))
         self.parsed_packet_window.show()
 
     def closeEvent(self, a0) -> None:

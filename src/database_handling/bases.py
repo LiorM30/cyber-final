@@ -1,3 +1,4 @@
+from scapy.all import Ether
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, LargeBinary
 
@@ -16,3 +17,8 @@ class PacketEntry(Base):
     timestamp = Column(DateTime)
     length = Column(Integer)
     raw = Column(LargeBinary)
+
+    def scapyfy(self):
+        """Return the raw packet as a scapy Ether object.
+        """
+        return Ether(self.raw)

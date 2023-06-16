@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout, QVBoxLayout, QLabel
 
 
 from ..database_handling.bases import PacketEntry
+from .. import ProtocolParser
 
 
 import struct
@@ -10,17 +11,24 @@ from scapy.all import *
 
 
 class ParsedPacketViewWidget(QWidget):
-    def __init__(self, packet: PacketEntry, parent: QWidget = None):
+    def __init__(self, packet: PacketEntry, parsers: dict[str, dict[str, ProtocolParser]], parent: QWidget = None):
         super().__init__(parent=parent)
 
         self.packet = packet
+        self.parsers = parsers
 
         self.layout = QHBoxLayout(self)
 
+        self.left_layout = QVBoxLayout()
+        self.protocol_label = QLabel()
         self.layer_combo_box: QComboBox = QComboBox()
+        self.left_layout.addWidget(self.protocol_label)
+        self.left_layout.addWidget(self.layer_combo_box)
+        self.left_layout.addStretch()
+
         self.text_browser: QTextBrowser = QTextBrowser()
 
-        self.layout.addWidget(self.layer_combo_box)
+        self.layout.addLayout(self.left_layout)
         self.layout.addWidget(self.text_browser)
 
         self.setLayout(self.layout)
@@ -35,49 +43,93 @@ class ParsedPacketViewWidget(QWidget):
 
         self.layer_combo_box.setCurrentIndex(0)
 
+    def get_link_layer_protocol(self) -> str:
+        """
+        Returns:
+            str: The link layer protocol of the packet. None if the packet is not a link layer packet.
+        """
+        for protocol, parser in self.parsers["Link"].items():
+            if parser.can_parse(self.packet.scapyfy()):
+                return protocol
+
+        return None
+
+    def get_network_layer_protocol(self) -> str:
+        """
+        Returns:
+            str: The network layer protocol of the packet. None if the packet is not a network layer packet.
+        """
+        for protocol, parser in self.parsers["Network"].items():
+            if parser.can_parse(self.packet.scapyfy()):
+                return protocol
+
+        return None
+
+    def get_transport_layer_protocol(self) -> str:
+        """
+        Returns:
+            str: The transport layer protocol of the packet. None if the packet is not a transport layer packet.
+        """
+        for protocol, parser in self.parsers["Transport"].items():
+            if parser.can_parse(self.packet.scapyfy()):
+                return protocol
+
+        return None
+
+    def get_application_layer_protocol(self) -> str:
+        """
+        Returns:
+            str: The application layer protocol of the packet. None if the packet is not a supported application layer packet.
+        """
+        for protocol, parser in self.parsers["Application"].items():
+            if parser.can_parse(self.packet.scapyfy()):
+                return protocol
+
+        return None
+
     def on_layer_combo_box_changed(self, text: str):
         self.text_browser.clear()
 
         match text:
             case "Link":
-                self.text_browser.setText(self.parse_ip_layer(self.packet))
+                name = self.get_link_layer_protocol()
+                if name is not None:
+                    self.protocol_label.setText(name)
+                    self.text_browser.setText(
+                        self.parsers['Link'][name].parse(self.packet.scapyfy()))
+                else:
+                    self.protocol_label.setText("Unsupported")
+                    self.text_browser.setText(
+                        "Unsupported link layer protocol")
             case "Network":
-                self.text_browser.setText("network")
+                name = self.get_network_layer_protocol()
+                if name is not None:
+                    self.protocol_label.setText(name)
+                    self.text_browser.setText(
+                        self.parsers['Network'][name].parse(self.packet.scapyfy()))
+                else:
+                    self.protocol_label.setText("Unsupported")
+                    self.text_browser.setText(
+                        "Unsupported network layer protocol")
             case "Transport":
-                self.text_browser.setText("Transport")
+                name = self.get_transport_layer_protocol()
+                if name is not None:
+                    self.protocol_label.setText(name)
+                    self.text_browser.setText(
+                        self.parsers['Transport'][name].parse(self.packet.scapyfy()))
+                else:
+                    self.protocol_label.setText("Unsupported")
+                    self.text_browser.setText(
+                        "Unsupported transport layer protocol")
             case "Application":
-                self.text_browser.setText("Application")
+                protocol = self.get_application_layer_protocol()
+                if protocol is not None:
+                    self.protocol_label.setText(name)
+                    self.text_browser.setText(
+                        self.parsers["Application"][protocol].parse(self.packet.scapyfy()))
+                else:
+                    self.protocol_label.setText("Unsupported")
+                    self.text_browser.setText(
+                        "Unsupported application layer protocol")
             case _:
                 self.text_browser.setText("Invalid layer")
-
-    def create_scapy_packet(cls, raw_bytes):
-        # Create a Scapy Ethernet packet object
-        ether_packet = Ether(raw_bytes)
-
-        # Create a Scapy IP packet object
-        ip_packet = ether_packet[IP]
-
-        # If the raw bytes contain additional payload beyond the IP layer,
-        # you can append it to the packet using the Raw layer
-        if len(raw_bytes) > len(ether_packet):
-            payload = raw_bytes[len(ether_packet):]
-            scapy_packet = ip_packet / Raw(payload)
-        else:
-            scapy_packet = ip_packet
-
-        return scapy_packet
-
-    def parse_ip_layer(self, packet: PacketEntry):
-        raw_bytes = packet.raw
-        ip_layer = self.create_scapy_packet(raw_bytes).getlayer(IP)
-        return f"Version: {ip_layer.version}\n" \
-            f"IP Header Length: {ip_layer.ihl * 4}\n" \
-            f"TOS: {ip_layer.tos}\n" \
-            f"Length: {ip_layer.len}\n" \
-            f"ID: {ip_layer.id}\n" \
-            f"Flags: {ip_layer.flags}\n" \
-            f"Fragment Offset: {ip_layer.frag}\n" \
-            f"TTL: {ip_layer.ttl}\n" \
-            f"Protocol: {ip_layer.proto}\n" \
-            f"Source Address: {ip_layer.src}\n" \
-            f"Destination Address: {ip_layer.dst}\n"

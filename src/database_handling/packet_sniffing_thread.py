@@ -13,9 +13,10 @@ from .bases import PacketEntry
 
 
 class PacketSniffingThread(Thread):
-    def __init__(self, interface, url):
+    def __init__(self, interface, url, parsers):
         super().__init__()
         self.interface = interface
+        self.parsers = parsers
 
         self.engine = create_engine(url, echo=False)
         self.Session = sessionmaker(bind=self.engine)
@@ -52,7 +53,6 @@ class PacketSniffingThread(Thread):
             self.logger.exception(e)
             new_entry = PacketEntry(
                 id=self.packet_id,
-                payload=0,
                 source_ip=None,
                 source_port=None,
                 destination_ip=None,
@@ -65,9 +65,11 @@ class PacketSniffingThread(Thread):
 
         self.packet_id += 1
 
-    def get_uppest_protocol(self, packet):
-        while packet.payload and isinstance(packet.payload, (IP, IPv6, TCP, UDP, ICMP)):
-            packet = packet.payload
+    def get_uppermost_protocol(self, packet):
+        for _, parsers in list(self.parsers.items())[::-1]:
+            for protocol, parser in parsers.items():
+                if parser.can_parse(packet):
+                    return protocol
         return packet.name
 
     def get_entry(self, packet: packet):
@@ -78,7 +80,7 @@ class PacketSniffingThread(Thread):
                 source_port=packet[IP].sport,
                 destination_ip=packet[IP].dst,
                 destination_port=packet[IP].dport,
-                protocol=self.get_uppest_protocol(packet),
+                protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
                 length=len(packet),
                 raw=bytes(packet)
@@ -90,7 +92,7 @@ class PacketSniffingThread(Thread):
                 source_port=None,
                 destination_ip=None,
                 destination_port=None,
-                protocol=self.get_uppest_protocol(packet),
+                protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
                 length=len(packet),
                 raw=bytes(packet)

@@ -6,6 +6,8 @@ import argparse
 
 from src.database_handling.bases import PacketEntry
 
+from src.parsers import *
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -25,13 +27,30 @@ def main():
         logging.FileHandler(r"logs\database handling.log", mode="w"))
 
     logging.getLogger("root").addHandler(
-        logging.FileHandler(r"logs\general.log", mode="w"))
+        logging.FileHandler(r"logs\root.log", mode="w"))
 
     logger = logging.getLogger("root")
 
+    parsers = {
+        "Link": {
+            "Ethernet": EthernetParser(),
+        },
+        "Network": {
+            "IPv4": IPv4Parser(),
+            "IPv6": IPv6Parser(),
+        },
+        "Transport": {
+            "TCP": TCPParser(),
+            "UDP": UDPParser(),
+        },
+        "Application": {
+            "HTTP": HTTPParser(),
+        }
+    }
+
     logger.info("Starting application")
     app = QApplication([])
-    window = MainWindow()
+    window = MainWindow(parsers)
     window.show()
     app.exec()
     logger.info("Application closed")
