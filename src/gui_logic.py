@@ -44,7 +44,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_display = PacketDisplayWidget(self.centralwidget)
         self.packet_display.setGeometry(QtCore.QRect(20, 80, 561, 251))
 
-        self.packet_display_thread = PacketRetrieverThread("sqlite:///test.db")
+        self.packet_display_thread = PacketRetrieverThread(
+            "sqlite:///packets_session.db")
 
         self.packet_display_thread.new_packets_signal.connect(
             self.on_new_packets)
@@ -64,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.on_packet_double_clicked)
 
         self.packet_sniffing_thread = PacketSniffingThread(
-            interface="wlp3s0", url="sqlite:///test.db", parsers=parsers)
+            interface="wlp3s0", url="sqlite:///packets_session.db", parsers=parsers)
 
         self.packet_sniffing_thread.start()
 
