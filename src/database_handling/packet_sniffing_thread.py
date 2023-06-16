@@ -13,9 +13,10 @@ from .packet_entry import PacketEntry
 
 
 class PacketSniffingThread(Thread):
-    def __init__(self, interface, url):
+    def __init__(self, interface, url, parsers):
         super().__init__()
         self.interface = interface
+        self.parsers = parsers
 
         self.engine = create_engine(url, echo=False)
         self.Session = sessionmaker(bind=self.engine)
@@ -32,9 +33,10 @@ class PacketSniffingThread(Thread):
         self.logger = logging.getLogger("database handling")
 
         self.running = False
+        self.killed = False
 
     def run(self):
-        while True:
+        while not self.killed:
             if self.running:
                 sniff(1, prn=self.handle_packet)
                 if (datetime.now() - self.last_commit).seconds > 0.1:
@@ -51,7 +53,6 @@ class PacketSniffingThread(Thread):
             self.logger.exception(e)
             new_entry = PacketEntry(
                 id=self.packet_id,
-                payload=0,
                 source_ip=None,
                 source_port=None,
                 destination_ip=None,
@@ -65,35 +66,36 @@ class PacketSniffingThread(Thread):
         self.packet_id += 1
 
     def get_uppermost_protocol(self, packet):
-        while packet.payload and isinstance(packet.payload, (IP, IPv6, TCP, UDP, ICMP)):
-            packet = packet.payload
+        for _, parsers in list(self.parsers.items())[::-1]:
+            for protocol, parser in parsers.items():
+                if parser.can_parse(packet):
+                    return protocol
         return packet.name
 
-    def get_entry(self, packet: Packet):
+    def get_entry(self, packet: packet):
         if IP in packet:  # TODO: work out the packet protocol
             new_entry = PacketEntry(
-                # payload=packet.payload,
                 id=self.packet_id,
-                payload=0,
                 source_ip=packet[IP].src,
                 source_port=packet[IP].sport,
                 destination_ip=packet[IP].dst,
                 destination_port=packet[IP].dport,
                 protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
-                length=len(packet)
+                length=len(packet),
+                raw=bytes(packet)
             )
         else:
             new_entry = PacketEntry(
                 id=self.packet_id,
-                payload=0,
                 source_ip=None,
                 source_port=None,
                 destination_ip=None,
                 destination_port=None,
                 protocol=self.get_uppermost_protocol(packet),
                 timestamp=datetime.fromtimestamp(packet.time),
-                length=len(packet)
+                length=len(packet),
+                raw=bytes(packet)
             )
         return new_entry
 
@@ -107,3 +109,8 @@ class PacketSniffingThread(Thread):
         self.running = True
         self.session = self.Session()
         self.logger.info("started new sql session")
+
+    def kill(self):
+        self.stop_session()
+        self.killed = True
+        self.logger.info("killed packet sniffing thread")

@@ -10,8 +10,8 @@ from .database_handling import PacketSniffingThread
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parsers, parent=None):
+        super().__init__(parent=parent)
         self.setupUi(self)
 
         self.filter: FilterWidget = CompositeFilterWidget()
@@ -44,36 +44,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.packet_display = PacketDisplayWidget(self.centralwidget)
         self.packet_display.setGeometry(QtCore.QRect(20, 80, 561, 251))
 
-        self.packet_info_layout = QtWidgets.QHBoxLayout()
-        self.raw_packet_info_layout = QtWidgets.QVBoxLayout()
-        self.decrypted_packet_info_layout = QtWidgets.QVBoxLayout()
-
-        self.packet_info_layout.addLayout(self.raw_packet_info_layout)
-        self.packet_info_layout.addLayout(self.decrypted_packet_info_layout)
-
-        self.packet_display_thread = PacketRetrieverThread("sqlite:///test.db")
+        self.packet_display_thread = PacketRetrieverThread(
+            "sqlite:///packets_session.db")
 
         self.packet_display_thread.new_packets_signal.connect(
             self.on_new_packets)
 
         self.packet_display_thread.start()
 
-        w = QtWidgets.QWidget()
-        w.setLayout(self.packet_info_layout)
-        self.packet_info_scroll.setWidget(w)
-        self.packet_info_scroll.widget().setLayout(self.packet_info_layout)
+        self.packet_bytes_data_text: QtWidgets.QTextBrowser = self.packet_info_scroll.findChild(
+            QtWidgets.QTextBrowser, "packet_bytes_data_text")
 
-        self.raw_packet_info_layout.addWidget(
-            QtWidgets.QLabel("raw packet data will go here"))
-        self.decrypted_packet_info_layout.addWidget(
-            QtWidgets.QLabel("decoded packet data will go here"))
+        self.packet_UTF8_data_text: QtWidgets.QTextBrowser = self.packet_info_scroll.findChild(
+            QtWidgets.QTextBrowser, "packet_UTF8_data_text")
+
+        self.packet_display.packet_clicked.connect(
+            self.on_packet_clicked)
+
+        self.packet_display.packet_double_clicked.connect(
+            self.on_packet_double_clicked)
 
         self.packet_sniffing_thread = PacketSniffingThread(
-            interface="wlp3s0", url="sqlite:///test.db")
+            interface="wlp3s0", url="sqlite:///packets_session.db", parsers=parsers)
 
         self.packet_sniffing_thread.start()
 
         self.logger = logging.getLogger("GUI")
+
+        self.parsers = parsers
 
     def start_sniffing_clicked(self):
         self.logger.info("pressed start sniffing")
@@ -103,7 +101,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             source_ip="source",
             destination_ip="destination",
             protocol="protocol",
-            length=0
+            length=3,
+            raw=b"raw",
         )
         self.packet_display.add_packet(new_packet)
 
@@ -121,6 +120,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         for packet in packets:
             self.packet_display.add_packet(packet)
 
+    def on_packet_clicked(self, packet: PacketEntry):
+        self.packet_bytes_data_text.setText(self._get_viewable_raw(packet))
+
+        self.packet_UTF8_data_text.setText(
+            self._get_viewable_decrypted(packet))
+
+    def _get_viewable_raw(self, packet: PacketEntry) -> str:
+        raw_list = [f"{byte:02x}" for byte in packet.raw]
+        result_list = [" ".join(raw_list[i:i+8])
+                       for i in range(0, len(raw_list), 8)]
+        return "\n".join(result_list)
+
+    def _get_viewable_decrypted(self, packet: PacketEntry) -> str:
+        valid_characters = set(
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-_=+[{]}\|;:'\",<.>/?`~ ")
+        raw_list = [chr(byte) if chr(
+            byte) in valid_characters else "." for byte in packet.raw]
+        result_list = [" ".join(raw_list[i:i+8])
+                       for i in range(0, len(raw_list), 8)]
+        return "\n".join(result_list)
+
+    def on_packet_double_clicked(self, packet: PacketEntry):
+        self.parsed_packet_window = QtWidgets.QMainWindow()
+        self.parsed_packet_window.setWindowTitle("Packet Info")
+        self.parsed_packet_window.setCentralWidget(
+            ParsedPacketViewWidget(packet, self.parsers))
+        self.parsed_packet_window.show()
+
     def closeEvent(self, a0) -> None:
-        self.packet_sniffing_thread.stop_session()
+        self.packet_sniffing_thread.kill()
         return super().closeEvent(a0)
