@@ -30,10 +30,10 @@ class TrafficAnalyzer(QThread):
         """Analyze the packets"""
         pass
 
-    def get_result_packets(self):
+    def get_result_packets(self) -> list[PacketEntry]:
         """Get a list of packets that are the result of the analysis"""
         pass
 
-    def get_result_message(self):
+    def get_result_message(self) -> str:
         """Get a message describing the results of the analysis"""
         pass
