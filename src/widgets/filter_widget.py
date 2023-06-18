@@ -7,7 +7,10 @@ from ..database_handling import PacketFilter
 
 # TODO: resolve metaclass problem with abc
 class FilterWidget(QtWidgets.QWidget):
-    def __init__(self, parent=None, name="filter widget"):
+    """Abstract class for filter widgets.
+    """
+
+    def __init__(self, parent=None):
         super().__init__(parent=parent)
 
         self.setSizePolicy(
@@ -18,4 +21,6 @@ class FilterWidget(QtWidgets.QWidget):
         self.setLayout(self._layout)
 
     def get_filter(self) -> PacketFilter:
+        """Returns the filter represented by this widget.
+        """
         raise NotImplementedError("Child class must implement abstract method")

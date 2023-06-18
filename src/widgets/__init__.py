@@ -3,3 +3,4 @@ from .singular_filter_widget import SingularFilterWidget
 from .composite_filter_widget import CompositeFilterWidget
 from .packet_display_widget import PacketDisplayWidget
 from .parsed_packet_view_widget import ParsedPacketViewWidget
+from .analyze_traffic_widget import AnalyzeTrafficWidget

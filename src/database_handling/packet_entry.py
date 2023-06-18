@@ -6,6 +6,8 @@ Base = declarative_base()
 
 
 class PacketEntry(Base):
+    """ORM Object representing a packet in the database.
+    """
     __tablename__ = 'packets'
 
     id = Column(Integer, primary_key=True)

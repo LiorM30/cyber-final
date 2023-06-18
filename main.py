@@ -7,6 +7,7 @@ import argparse
 from src.database_handling.packet_entry import PacketEntry
 
 from src.parsers import *
+from src import DDOSAnalyzer
 
 
 def main():
@@ -48,9 +49,15 @@ def main():
         }
     }
 
+    analyzers = {
+        "DDOS": DDOSAnalyzer
+    }
+
+    db_url = "sqlite:///packets_session.db"
+
     logger.info("Starting application")
     app = QApplication([])
-    window = MainWindow(parsers)
+    window = MainWindow(parsers, analyzers, db_url)
     window.show()
     app.exec()
     logger.info("Application closed")

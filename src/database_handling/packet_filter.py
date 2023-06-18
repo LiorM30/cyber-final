@@ -3,12 +3,11 @@ from sqlalchemy.sql.elements import BinaryExpression
 
 
 class PacketFilter(ABC):
-    def __init__(self) -> None:
-        pass
+    """Abstract class for packet filters.
+    """
 
     @abstractmethod
     def get_filter_expression(self) -> BinaryExpression:
+        """Return a SQLAlchemy BinaryExpression representing the filter.
+        """
         raise NotImplementedError("Child class must implement abstract method")
-
-    def __str__(self) -> str:
-        return str(self.get_filter_expression())

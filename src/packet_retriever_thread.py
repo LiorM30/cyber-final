@@ -22,7 +22,11 @@ class PacketRetrieverThread(QtCore.QThread):
     """
     new_packets_signal = pyqtSignal(list)
 
-    def __init__(self, url) -> None:
+    def __init__(self, url: str) -> None:
+        """
+        Args:
+            url (str): url for the database
+        """
         super().__init__()
         self.engine = create_engine(url, echo=False)
         self.Session = sessionmaker(bind=self.engine)
@@ -33,6 +37,11 @@ class PacketRetrieverThread(QtCore.QThread):
         self.displayed_packets: list[PacketEntry] = []
 
     def apply_filter(self, filter: PacketFilter) -> None:
+        """apply a new filter to the thread
+
+        Args:
+            filter (PacketFilter): the new filter
+        """
         self.filter = filter
         self.displayed_packets = []
 
@@ -50,7 +59,7 @@ class PacketRetrieverThread(QtCore.QThread):
 
         return [packet_entry for packet_entry in query.all()]
 
-    def run(self):
+    def run(self) -> None:
         while True:
             sleep(0.1)
 
