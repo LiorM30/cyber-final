@@ -6,6 +6,9 @@ from ..known_protocols import KnownProtocols
 
 
 class SingularFilterWidget(FilterWidget):
+    """Widget for creating a singular filter, which is a filter that does not contain other filters.
+    """
+
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
@@ -33,6 +36,8 @@ class SingularFilterWidget(FilterWidget):
             self.filter_type_changed)
 
     def filter_type_changed(self):
+        """Changes the secondary input widget based on the selected filter type.
+        """
         w = self._layout.itemAt(2).widget()
         self._layout.removeWidget(w)
         w.hide()
@@ -55,6 +60,11 @@ class SingularFilterWidget(FilterWidget):
                 self._layout.insertWidget(2, self.value_text_box)
 
     def get_filter(self) -> PacketFilter:
+        """Returns the filter represented by this widget.
+
+        Returns:
+            PacketFilter: the filter represented by this widget
+        """
         match self.type_combo_box.currentText():
             case "protocol":
                 return ProtocolFilter(self.value_combo_box.currentText())

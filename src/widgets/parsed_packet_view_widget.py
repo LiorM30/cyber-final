@@ -4,14 +4,19 @@ from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout, QVBox
 from ..database_handling import PacketEntry
 from .. import ProtocolParser
 
-
-import struct
-from socket import inet_ntoa
 from scapy.all import *
 
 
 class ParsedPacketViewWidget(QWidget):
+    """Widget for displaying a packets parsed data.
+    """
+
     def __init__(self, packet: PacketEntry, parsers: dict[str, dict[str, ProtocolParser]], parent: QWidget = None):
+        """
+        Args:
+            packet (PacketEntry): the packet to display
+            parsers (dict[str, dict[str, ProtocolParser]]): the parsers to use for each protocol
+        """
         super().__init__(parent=parent)
 
         self.packet = packet
@@ -88,6 +93,11 @@ class ParsedPacketViewWidget(QWidget):
         return None
 
     def on_layer_combo_box_changed(self, text: str):
+        """sets the text browser to the parsed data of the selected layer
+
+        Args:
+            text (str): the selected layer
+        """
         self.text_browser.clear()
 
         match text:

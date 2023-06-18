@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1245</width>
-    <height>769</height>
+    <width>1095</width>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -140,63 +140,6 @@
       <normaloff>../resources/icons/restart_sniffing.png</normaloff>../resources/icons/restart_sniffing.png</iconset>
     </property>
    </widget>
-   <widget class="QScrollArea" name="packet_info_scroll">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>350</y>
-      <width>561</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_3">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>559</width>
-       <height>129</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Courier New</family>
-      </font>
-     </property>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>-1</x>
-        <y>-1</y>
-        <width>561</width>
-        <height>131</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QTextBrowser" name="packet_bytes_data_text">
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTextBrowser" name="packet_UTF8_data_text">
-         <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="add_packet_button">
     <property name="geometry">
      <rect>
@@ -242,7 +185,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1245</width>
+     <width>1095</width>
      <height>21</height>
     </rect>
    </property>
@@ -253,16 +196,16 @@
     <addaction name="actionfile"/>
     <addaction name="actionimport_file"/>
    </widget>
-   <widget class="QMenu" name="menustaticstics">
+   <widget class="QMenu" name="menu_analyses">
     <property name="title">
-     <string>staticstics</string>
+     <string>analyses</string>
     </property>
-    <addaction name="actionview_hierarchy"/>
+    <addaction name="analyze_traffic_action"/>
     <addaction name="separator"/>
     <addaction name="actionvisualization"/>
    </widget>
    <addaction name="menuimport"/>
-   <addaction name="menustaticstics"/>
+   <addaction name="menu_analyses"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionfile">
@@ -275,9 +218,9 @@
     <string>import file</string>
    </property>
   </action>
-  <action name="actionview_hierarchy">
+  <action name="analyze_traffic_action">
    <property name="text">
-    <string>view hierarchy</string>
+    <string>analyze traffic</string>
    </property>
   </action>
   <action name="actionvisualization">

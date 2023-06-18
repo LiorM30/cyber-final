@@ -8,7 +8,10 @@ from ..database_handling.filters import CompoundFilter
 
 
 class CompositeFilterWidget(FilterWidget):
-    def __init__(self, parent=None, name="composite_filter") -> None:
+    """Widget for creating a compound filter, which is a filter that contains other filters.
+    """
+
+    def __init__(self, parent=None) -> None:
         super().__init__(parent=parent)
 
         self.setSizePolicy(
@@ -51,6 +54,8 @@ class CompositeFilterWidget(FilterWidget):
         self.add_filter()
 
     def remove_filter_clicked(self) -> None:
+        """Removes the last filter from the compound filter and deletes it and its entire layout.
+        """
         if len(self.filters) > 1:
             l = self.filter_layout.itemAt(
                 self.filter_layout.count() - 1).layout()
@@ -67,6 +72,11 @@ class CompositeFilterWidget(FilterWidget):
                 self.operators.pop(-1)
 
     def toggle_composite_clicked(self, filter_layout: QtWidgets.QHBoxLayout) -> None:
+        """Toggles the child filter between a composite filter and a singular filter.
+
+        Args:
+            filter_layout (QtWidgets.QHBoxLayout): The layout of the filter to toggle.
+        """
         self.filters.remove(filter_layout.itemAt(1).widget())
 
         if isinstance(filter_layout.itemAt(1).widget(), CompositeFilterWidget):
@@ -81,6 +91,10 @@ class CompositeFilterWidget(FilterWidget):
             self.filters.append(composite_filter)
 
     def add_filter(self) -> None:
+        """Adds a new filter to the compound filter widget
+          as well as an operator if there is more than one filter
+            and a button to toggle between composite and singular filters.
+        """
         new_filter_layout = QtWidgets.QHBoxLayout()
         toggle_composite_button = QtWidgets.QPushButton("[")
         toggle_composite_button.setMaximumWidth(10)
@@ -105,6 +119,11 @@ class CompositeFilterWidget(FilterWidget):
         )
 
     def get_filter(self) -> PacketFilter:
+        """Returns a PacketFilter object representing the compound filter by iterating on and combining the filters and operators.
+
+        Returns:
+            PacketFilter: The compound filter.
+        """
         compound_filter = CompoundFilter(self.filters[0].get_filter())
         for operator, f in zip(self.operators, self.filters[1:]):
             if operator.currentText() == "AND":

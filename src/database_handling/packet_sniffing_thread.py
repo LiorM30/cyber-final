@@ -9,11 +9,21 @@ from time import sleep
 
 import logging
 
-from .packet_entry import PacketEntry
+from . import PacketEntry
+from . import PacketParser
 
 
-class PacketSniffingThread(Thread):
-    def __init__(self, interface, url, parsers):
+class PacketSniffingThread(Thread):  # TODO: determine if QThread is better
+    """Thread for sniffing packets and adding them to the database.
+    """
+
+    def __init__(self, interface: str, url: str, parsers: dict[str, dict[str, PacketParser]]) -> None:
+        """
+        Args:
+            interface (str): the interface to sniff on
+            url (str): the url to connect to the database
+            parsers (dict[str, dict[str, PacketParser]]): the parsers to use for each protocol
+        """
         super().__init__()
         self.interface = interface
         self.parsers = parsers
@@ -35,7 +45,7 @@ class PacketSniffingThread(Thread):
         self.running = False
         self.killed = False
 
-    def run(self):
+    def run(self) -> None:
         while not self.killed:
             if self.running:
                 sniff(1, prn=self.handle_packet)
@@ -46,7 +56,12 @@ class PacketSniffingThread(Thread):
             else:
                 sleep(0.1)
 
-    def handle_packet(self, packet):
+    def handle_packet(self, packet: packet) -> None:
+        """Handle a packet by adding it to the database.
+
+        Args:
+            packet (packet): the packet to handle
+        """
         try:
             new_entry = self.get_entry(packet)
         except Exception as e:
@@ -65,14 +80,30 @@ class PacketSniffingThread(Thread):
 
         self.packet_id += 1
 
-    def get_uppermost_protocol(self, packet):
+    def get_uppermost_protocol(self, packet: packet) -> str:
+        """Get the uppermost protocol of a packet.
+
+        Args:
+            packet (packet): the packet to get the uppermost protocol of
+
+        Returns:
+            str: the uppermost protocol of the packet
+        """
         for _, parsers in list(self.parsers.items())[::-1]:
             for protocol, parser in parsers.items():
                 if parser.can_parse(packet):
                     return protocol
         return packet.name
 
-    def get_entry(self, packet: packet):
+    def get_entry(self, packet: packet) -> PacketEntry:
+        """Create a new PacketEntry from a packet.
+
+        Args:
+            packet (packet): the packet to get the PacketEntry from
+
+        Returns:
+            PacketEntry: the PacketEntry from the packet
+        """
         if IP in packet:  # TODO: work out the packet protocol
             new_entry = PacketEntry(
                 id=self.packet_id,
@@ -99,18 +130,24 @@ class PacketSniffingThread(Thread):
             )
         return new_entry
 
-    def stop_session(self):
+    def stop_session(self) -> None:
+        """Stop the current sql session.
+        """
         self.running = False
         self.session.commit()
         self.session.close()
         self.logger.info("stopped current sql session")
 
-    def start_session(self):
+    def start_session(self) -> None:
+        """Start a new sql session.
+        """
         self.running = True
         self.session = self.Session()
         self.logger.info("started new sql session")
 
-    def kill(self):
+    def kill(self) -> None:
+        """Kill the thread.
+        """
         self.stop_session()
         self.killed = True
         self.logger.info("killed packet sniffing thread")
