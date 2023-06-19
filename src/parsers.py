@@ -24,13 +24,15 @@ class HTTPParser(ProtocolParser):
 
         return s
 
-    def can_parse(cls, packet) -> bool:
+    def can_parse(cls, packet) -> bool:  # TODO: implement a way to have less false positives
         methods = ['GET', 'POST', 'HEAD', 'PUT', 'DELETE',
                    'CONNECT', 'OPTIONS', 'TRACE']
         if packet.haslayer(TCP):
-            if packet.haslayer(Raw):  # Checks if packet has payload
+            if packet.haslayer(Raw):
                 raw = packet[Raw].load
-                for method in methods:  # Checks if any of the http methods are present in load
+                if b"HTTP/1." in raw and b"\r\n\r\n" in raw:
+                    return True
+                for method in methods:  # Checks if any of the http methods are present in payloadload
                     if method.encode() in raw:
                         return True
 

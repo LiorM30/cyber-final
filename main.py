@@ -10,7 +10,7 @@ from src.parsers import *
 from src import DDOSAnalyzer
 
 
-def main():
+def main():  # TODO: in oproject book, remove static from static analyses, its incorrect naming
     parser = argparse.ArgumentParser()
     parser.add_argument("--log-level", type=int, default=10)
     args = parser.parse_args()
@@ -55,9 +55,10 @@ def main():
 
     db_url = "sqlite:///packets_session.db"
 
+    window = MainWindow(parsers, analyzers, db_url)
+
     logger.info("Starting application")
     app = QApplication([])
-    window = MainWindow(parsers, analyzers, db_url)
     window.show()
     app.exec()
     logger.info("Application closed")

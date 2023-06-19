@@ -2,8 +2,6 @@ from abc import ABC, abstractstaticmethod
 
 from scapy.all import *
 
-from .database_handling import PacketEntry
-
 
 class ProtocolParser(ABC):
     """Abstract base class for protocol parsers.

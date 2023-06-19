@@ -2,14 +2,13 @@ from PyQt6 import QtWidgets, QtCore
 
 from . import FilterWidget
 from ..database_handling.filters import *
-from ..known_protocols import KnownProtocols
 
 
 class SingularFilterWidget(FilterWidget):
     """Widget for creating a singular filter, which is a filter that does not contain other filters.
     """
 
-    def __init__(self, parent=None) -> None:
+    def __init__(self, parsers, parent=None) -> None:
         super().__init__(parent)
 
         self.type = "protocol"

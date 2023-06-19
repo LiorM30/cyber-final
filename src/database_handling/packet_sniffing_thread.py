@@ -10,14 +10,14 @@ from time import sleep
 import logging
 
 from . import PacketEntry
-from . import PacketParser
+from .. import ProtocolParser
 
 
 class PacketSniffingThread(Thread):  # TODO: determine if QThread is better
     """Thread for sniffing packets and adding them to the database.
     """
 
-    def __init__(self, interface: str, url: str, parsers: dict[str, dict[str, PacketParser]]) -> None:
+    def __init__(self, interface: str, url: str, parsers: dict[str, dict[str, ProtocolParser]]) -> None:
         """
         Args:
             interface (str): the interface to sniff on
