@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QWidget, QComboBox, QTextBrowser, QHBoxLayout, QVBoxLayout, QLabel
 
 
-from ..database_handling import PacketEntry
-from .. import ProtocolParser
+from src.database_handling import PacketEntry
+from src.analyses import ProtocolParser
 
 from scapy.all import *
 

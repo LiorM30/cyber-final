@@ -10,7 +10,7 @@ from time import sleep
 import logging
 
 from . import PacketEntry
-from .. import ProtocolParser
+from ..analyses import ProtocolParser
 
 
 class PacketSniffingThread(Thread):  # TODO: determine if QThread is better

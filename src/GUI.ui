@@ -140,19 +140,6 @@
       <normaloff>../resources/icons/restart_sniffing.png</normaloff>../resources/icons/restart_sniffing.png</iconset>
     </property>
    </widget>
-   <widget class="QPushButton" name="add_packet_button">
-    <property name="geometry">
-     <rect>
-      <x>590</x>
-      <y>460</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>add packet</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="apply_filters_button">
     <property name="geometry">
      <rect>
@@ -189,22 +176,13 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuimport">
-    <property name="title">
-     <string>file</string>
-    </property>
-    <addaction name="actionfile"/>
-    <addaction name="actionimport_file"/>
-   </widget>
    <widget class="QMenu" name="menu_analyses">
     <property name="title">
      <string>analyses</string>
     </property>
     <addaction name="analyze_traffic_action"/>
     <addaction name="separator"/>
-    <addaction name="actionvisualization"/>
    </widget>
-   <addaction name="menuimport"/>
    <addaction name="menu_analyses"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

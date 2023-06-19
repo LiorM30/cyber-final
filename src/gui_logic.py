@@ -2,8 +2,8 @@ import logging
 from PyQt6 import QtWidgets, QtCore
 from .GUI import Ui_MainWindow
 
-from . import TrafficAnalyzer
-from . import PacketParser
+from .analyses import TrafficAnalyzer
+from .analyses import ProtocolParser
 from . import PacketRetrieverThread
 
 from .database_handling import PacketEntry
@@ -13,7 +13,7 @@ from .widgets import *
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, parsers: dict[str, dict[str, PacketParser]], analyzers: dict[str, TrafficAnalyzer], db_url: str, parent=None):
+    def __init__(self, parsers: dict[str, dict[str, ProtocolParser]], analyzers: dict[str, TrafficAnalyzer], db_url: str, parent=None):
         """Main window for the GUI.
 
         Args:
@@ -49,8 +49,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.filter_scroll.setHorizontalScrollBarPolicy(
             QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn
         )
-
-        self.add_packet_button.clicked.connect(self.add_packet_clicked)
 
         self.packet_display = PacketDisplayWidget(self.centralwidget)
         self.packet_display.setGeometry(QtCore.QRect(20, 80, 561, 400))

@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 
 from .database_handling.packet_entry import PacketEntry
-from .database_handling.filters import PacketFilter
+from .database_handling.packet_filter import PacketFilter
 
 from time import sleep
 

@@ -4,8 +4,8 @@ from src.gui_logic import MainWindow
 import logging
 import argparse
 
-from src.parsers import *
-from src import DDOSAnalyzer
+from src.analyses.parsers import *
+from src.analyses import DDOSAnalyzer
 
 
 def main():

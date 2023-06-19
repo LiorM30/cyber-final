@@ -3,15 +3,15 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QPushB
 
 from src.database_handling.packet_entry import PacketEntry
 from . import PacketDisplayWidget, ParsedPacketViewWidget
-from .. import TrafficAnalyzer
-from .. import PacketParser
+from src.analyses import TrafficAnalyzer
+from src.analyses import ProtocolParser
 
 
 class AnalyzeTrafficWidget(QWidget):
     """Widget for analyzing traffic, user can select the type of analysis to perform. and the results are displayed in a PacketDisplayWidget.
     """
 
-    def __init__(self, analyzers: dict[str, TrafficAnalyzer], db_url: str, parsers: dict[str, dict[str, PacketParser]], parent: QWidget = None) -> None:
+    def __init__(self, analyzers: dict[str, TrafficAnalyzer], db_url: str, parsers: dict[str, dict[str, ProtocolParser]], parent: QWidget = None) -> None:
         """
         Args:
             analyzers (dict[str, TrafficAnalyzer]): the analyzers to use
