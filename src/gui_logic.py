@@ -2,13 +2,14 @@ import logging
 from PyQt6 import QtWidgets, QtCore
 from .GUI import Ui_MainWindow
 
-from .widgets import *
-from . import PacketRetrieverThread
-from .database_handling.packet_entry import PacketEntry
-from .database_handling import PacketSniffingThread
-
 from . import TrafficAnalyzer
 from . import PacketParser
+from . import PacketRetrieverThread
+
+from .database_handling import PacketEntry
+from .database_handling import PacketSniffingThread
+
+from .widgets import *
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):

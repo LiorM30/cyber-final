@@ -4,7 +4,7 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.database_handling.packet_entry import PacketEntry
+from .database_handling import PacketEntry
 
 
 class TrafficAnalyzer(QThread):

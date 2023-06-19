@@ -2,7 +2,6 @@ from PyQt6 import QtWidgets, QtCore
 
 from . import FilterWidget
 from ..database_handling.filters import *
-from ..known_protocols import KnownProtocols
 
 
 class SingularFilterWidget(FilterWidget):
@@ -22,7 +21,7 @@ class SingularFilterWidget(FilterWidget):
         self.type_combo_box.addItems(
             ["protocol", "source ip", "destination ip", "source port", "destination port"])
         self.value_combo_box = QtWidgets.QComboBox()
-        self.value_combo_box.addItems([p.name for p in KnownProtocols])
+        self.value_combo_box.addItems(["TCP", "UDP", "HTTP"])
         self.value_text_box = QtWidgets.QLineEdit()
         self.value_text_box.setFixedWidth(100)
 
@@ -45,7 +44,7 @@ class SingularFilterWidget(FilterWidget):
             case "protocol":
                 self.value_combo_box.show()
                 self._layout.insertWidget(2, self.value_combo_box)
-                self.value_combo_box.addItems(["TCP", "UDP", "ICMP"])
+                self.value_combo_box.addItems(["TCP", "UDP", "HTTP"])
             case "source ip":
                 self.value_text_box.show()
                 self._layout.insertWidget(2, self.value_text_box)
